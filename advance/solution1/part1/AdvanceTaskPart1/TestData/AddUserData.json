@@ -1,0 +1,18 @@
+[
+  {
+    "availableTime": "Part Time",
+    "availableHours": "Less than 30hours a week",
+    "earnTarget": "Less than $500 per month"
+  },
+  {
+    "availableTime": "Part Time",
+    "availableHours": "More than 30hours a week",
+    "earnTarget": "Less than $500 per month"
+  },
+  {
+    "availableTime": "Part Time",
+    "availableHours": "Less than 30hours a week",
+    "earnTarget": "Between $500 and $1000 per month"
+  }
+
+]

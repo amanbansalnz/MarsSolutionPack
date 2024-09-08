@@ -1,0 +1,3722 @@
+{
+	"info": {
+		"_postman_id": "def87d3e-4174-422c-953f-f5bca17f19c0",
+		"name": "Advance Sprint3API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33466109"
+	},
+	"item": [
+		{
+			"name": "User API",
+			"item": [
+				{
+					"name": "Signin API",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion 1 - status code check\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"const SigninSchema ={\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"isSuccess\": { \"type\": \"boolean\" },\r",
+									"        \"token\": { \"type\": \"string\" },\r",
+									"}\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(SigninSchema);\r",
+									"});\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"// Assertion2 - Validate User Authentication\r",
+									"pm.test(\"Validate User Authentication\", function () {\r",
+									" var response = pm.response.json();\r",
+									"pm.expect(response).to.have.property(\"isSuccess\").and.be.a(\"boolean\");\r",
+									"if (response.isSuccess){\r",
+									"pm.expect(response.token).to.be.an(\"object\").and.to.have.property(\"token\");\r",
+									"pm.environment.set(\"authToken\", response.token.token)\r",
+									"}\r",
+									"else {\r",
+									" pm.expect(response).to.have.property(\"errorMessage\").and.be.a(\"string\");\r",
+									"  }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"rememberMe\": false,\r\n  \"email\": \"priyak86@gmail.com\",\r\n  \"password\": \"Pass123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/authentication/signin",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"authentication",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Language API",
+			"item": [
+				{
+					"name": "Add Language",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"\tpm.response.to.have.status(200);\r",
+									"});\r",
+									"// Assertion - Validate adding language response\r",
+									"var AddLanguageschema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"        \"message\":{\"type\":\"string\"},\r",
+									"        \"id\": { \"type\": \"string\" }\r",
+									"    },\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate AddLanguageschema\", () => {\r",
+									"pm.response.to.have.jsonSchema(AddLanguageschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"\tvar statusCode = pm.response.code;\r",
+									"\tif (statusCode === 200) {\r",
+									" var response = pm.response.json();\r",
+									"\tvar success = response.success;\r",
+									"\tvar message = response.message;\r",
+									"\t\t\t\t\t\t\t\t\t    \r",
+									"if (success) {\r",
+									"// Positive case: language added successfully\r",
+									"pm.test(\"Language added successfully\", function () {\r",
+									"pm.expect(success).to.be.true;\r",
+									"pm.environment.set(\"language_id\", response.id);\r",
+									"})\r",
+									"   } \r",
+									"   else if (message === \"This language is already exist in your language list.\") {\r",
+									"   // Negative case: language already exists\r",
+									" pm.test(\"Duplicate language\", function () {\r",
+									"\t pm.expect(success).to.be.false;\r",
+									"pm.expect(message).to.equal(\"This language is already exist in your language list.\");\r",
+									"});\r",
+									"\t}\r",
+									"\t} else if (statusCode === 401) {\r",
+									"// Unauthorized: unable to add language without authentication\r",
+									"pm.test(\"Unable to add language without authentication\", function () {\r",
+									"pm.expect(pm.response.body).to.be.undefined;\r",
+									" });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"name\": \"Malayalam289\",\r\n  \"level\": \"Basic\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/addLanguage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"addLanguage"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n  \"name\": \"spanish\",\r\n  \"level\": \"Basic\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Add Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n  \"name\": 23@3$%$%,\r\n  \"level\": \"Basic\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Add Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n  \"name\": \"Malayalam25\",\r\n  \"level\": \"Basic\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Added Language",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var listLanguange = {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\": {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"            \"personLanguageId\": { \"type\": \"string\" },\r",
+									"            \"language\": { \"type\": \"string\" },\r",
+									"            \"languageLevel\": { \"type\": \"string\" }\r",
+									"        },\r",
+									"    }\r",
+									"};\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(listLanguange);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"//Assertion-1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Assertion - Validate successful retrieval of language list\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    pm.test(\"Retrieve list of languages successfully\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.expect(response).to.be.an('array');\r",
+									"    });\r",
+									"} else if (statusCode === 401) {\r",
+									"    // Unauthorized: unable to retrieve language list without authentication\r",
+									"    pm.test(\"Unable to retrieve languages without authentication\", function () {\r",
+									"        pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getLanguage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getLanguage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateLanguage",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion-1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"const updateLanguageSchema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"        \"message\": { \"type\": \"string\" },\r",
+									"        \"id\": { \"type\": \"string\" }\r",
+									"    },\r",
+									"};\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(updateLanguageSchema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"\r",
+									"// Validate response for successful language update\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var message = response.message;\r",
+									"\r",
+									"    if (message === \"Language added successfully\") {\r",
+									"        pm.test(\"Validate Language Update Success\", function () {\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.message).to.equal(\"Language added successfully\");\r",
+									"        });\r",
+									"    } else if (message === \"This language is already added to your language list.\") {\r",
+									"        pm.test(\"Validate Duplicate Language\", function () {\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.equal(\"This language is already added to your language list.\");\r",
+									"        });\r",
+									"    } else if (message === \"Error while adding new language\") {\r",
+									"        pm.test(\"Unable to Update Language without ID\", function () {\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.equal(\"Error while adding new language\");\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"// Unable to update language without authentication\r",
+									"if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Update Language without User Authentication\", function () {\r",
+									"        pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"Malayalam23\",\r\n  \"level\": \"Native/Bilingual\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/updateLanguage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"updateLanguage"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Negative Update Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"Malayalam23\",\r\n  \"level\": \"Native/Bilingual\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative Invalid Update Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"Malayalam23\",\r\n  \"level\": \"Language Level\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Language",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"const DeleteLanguageschema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"        \"language\": { \"type\": \"string\" }\r",
+									"    },        \r",
+									"}\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(DeleteLanguageschema);\r",
+									"}); \r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"// Assertion - Validate language deletion success\r",
+									"var statusCode = pm.response.code;\r",
+									"if (statusCode === 200) {\r",
+									"    pm.test(\"Language deleted successfully\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.expect(response.success).to.be.true;\r",
+									"        pm.expect(response.language).to.exist;\r",
+									"    });\r",
+									"}\r",
+									"else {\r",
+									"    var response = pm.response.json(); // Define response here to avoid ReferenceError\r",
+									"    if (response.message === \"Error while deleting language Object reference not set to an instance of an object.\") {\r",
+									"        pm.test(\"Negative Delete language\", function () {\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.equal(\"Error while deleting language Object reference not set to an instance of an object.\");\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"// Assertion - Unable to delete language without authentication\r",
+									"if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Delete Language without User being Authenticated\", function () {\r",
+									"        pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"}\r",
+									"// Assertion - Negative cases for invalid and empty ID\r",
+									"if (statusCode === 500) {\r",
+									"    pm.test(\"Negative - Delete Language Invalid Id\", function () {\r",
+									"        pm.response.to.have.status(500);\r",
+									"    });\r",
+									"                    \r",
+									"    pm.test(\"Negative - Delete Language Empty Id Field\", function () {\r",
+									"        pm.response.to.have.status(500);\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{language_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/deleteLanguage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"deleteLanguage"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Skill API",
+			"item": [
+				{
+					"name": "Add Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion -1 Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"var AddSkillschema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"        \"id\": { \"type\": \"string\" }\r",
+									"    },\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(AddSkillschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"//Assertion-2 Validate added skill successfully\r",
+									"   var statusCode = pm.response.code;\r",
+									"if (statusCode == 200) {\r",
+									"   var response = pm.response.json();\r",
+									"   var message = response.message;\r",
+									"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r",
+									"if (response.success == true) {\r",
+									"pm.test(\"Positive Add Skill\", function () {\r",
+									"  var response = pm.response.json();\r",
+									"pm.expect(response.success).to.be.true;\r",
+									"pm.environment.set(\"skillid\", response.id);\r",
+									"});\r",
+									"\t} \r",
+									"\telse {\r",
+									"\t\t\t\t\t\t\t\t        \r",
+									"\tif (response.message == \"This skill is already exist in your skill list.\") {\r",
+									"       pm.test(\"Negative Duplicate Skill\", function () {\r",
+									"\t\tvar response = pm.response.json();\r",
+									"\t\t\tpm.expect(response.success).to.be.false;\r",
+									"\t\tpm.expect(response.message).to.equal(\"This skill is already exist in your skill list.\");\t\t\r",
+									"});\r",
+									"\t}\r",
+									"  \r",
+									"  }\r",
+									"}\r",
+									"\t\t\t\t\t\t\t\t\r",
+									"\tif (statusCode == 401) {\r",
+									"\tvar response = pm.response.body\r",
+									"pm.test(\"Unable to Update Skill without User being Authenticated\", function () {\r",
+									"pm.expect(response).to.be.undefined;\r",
+									"});\r",
+									"\r",
+									"}\r",
+									"\t\t\t\t\t\t\t\t\t\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"PersonSkillId\": 0,\r\n  \"Skill\": \"Selenium78\",\r\n  \"ExperienceLevel\": \"Intermediate\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/addSkill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"addSkill"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add duplicate Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": 0,\r\n  \"Skill\": \"Selenium78\",\r\n  \"ExperienceLevel\": \"Intermediate\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Add special charaterSkill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": 0,\r\n  \"Skill\": \"@@#$%#@!@#$%^&*(\",\r\n  \"ExperienceLevel\": \"Intermediate\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "AddNegative Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": 0,\r\n  \"Skill\": \"Selenium78\",\r\n  \"ExperienceLevel\": \"Expert\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Verify Added Skill list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion-1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var getlistskill = {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\": {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"            \"personSkillId\": { \"type\": \"string\" },\r",
+									"            \"skill\": { \"type\": \"string\" },\r",
+									"            \"experienceLevel\": { \"type\": \"string\" }\r",
+									"        },\r",
+									"    }\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(getlistskill);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"// Assertion -2 Validate successful retrieval of skills list\r",
+									"var statusCode = pm.response.code\r",
+									"if (statusCode === 200) {\r",
+									"pm.test(\"Get The List of Skills successfully\", function () {\r",
+									"    var response = pm.response.json()\r",
+									"    pm.expect(response).to.be.an('array')\r",
+									"});\r",
+									"}\r",
+									"// Assertion -3 Unable to retrieve skills list without authentication\r",
+									"else if (statusCode === 401) {\r",
+									"pm.test(\"Unable to return Skills because user is not Authenticated\", function () {\r",
+									"    pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getSkill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getSkill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion-1 check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var UpdatedSkillschema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"        \"id\": { \"type\": \"string\" }\r",
+									"    },\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(UpdatedSkillschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\t\t\t\t\t\t\t\t\r",
+									"// Assertion -2 Validate skill update success or failure\r",
+									"var statusCode = pm.response.code;\r",
+									"var response = pm.response.json();\r",
+									"if (statusCode === 200) {\r",
+									"var message = response.message;\r",
+									"if (response.success === true) {\r",
+									"pm.test(\"Validate Updated Skill Successfully\", function () {\r",
+									"\t  pm.expect(response.success).to.be.true;\r",
+									"      var skillId = pm.environment.get(\"skillid\"); \r",
+									"\t  pm.expect(skillId).to.exist;\r",
+									"});\r",
+									"\t} \r",
+									"// Assertion -3 Duplicate skill\r",
+									"else if (message === \"This skill is already added to your skill list.\") {\r",
+									"\tpm.test(\"Validate Duplicate Skill\", function () {\r",
+									"\tpm.expect(response.success).to.be.false;\r",
+									"pm.expect(response.message).to.equal(\"This skill is already added to your skill list.\");\r",
+									"});\r",
+									"    } \r",
+									"// Assertion -4 while adding new skill Error\r",
+									"else if (message === \"Error while adding new skill '' is not a valid 24 digit hex string.\") \r",
+									"   {\r",
+									"      pm.test(\"Unable to Update Skill without ID\", function () {\r",
+									"\t  pm.expect(response.success).to.be.false;\r",
+									"\t  pm.expect(response.message).to.equal(\"Error while adding new skill '' is not a valid 24 digit hex string.\");\r",
+									"});\r",
+									"\t}\r",
+									"}\r",
+									"\t\t\t\t\t\t\t\t\t\r",
+									"// Assertion -5 Unable to update skill without authentication\r",
+									"\tif (statusCode === 401) {\r",
+									"pm.test(\"Unable to Update Skill without User being Authenticated\", function () {\r",
+									"   pm.expect(pm.response.body).to.be.undefined;\r",
+									"});\r",
+									"    }"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"PersonSkillId\": \"{{skillid}}\",\r\n  \"Skill\": \"Java34\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/updateSkill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"updateSkill"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Duplicate skill updated",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skillid}}\",\r\n  \"Skill\": \"Java34\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Null value updated skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skillid}}\",\r\n  \"Skill\": \"Java34\",\r\n  \"ExperienceLevel\": \"Skill Level\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "negative updated skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skillid}}\",\r\n  \"Skill\": \"\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Deleted Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var DeletedSkillschema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"        \"id\": { \"type\": \"string\" },\r",
+									"        \"skill\":{\"type\":\"string\"}\r",
+									"    },\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(DeletedSkillschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"var statusCode = pm.response.code;\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var message = response.message;\r",
+									"\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Positive Delete Skill\", function () {\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.skill).to.not.be.empty;\r",
+									"        });\r",
+									"    } else {\r",
+									"        if (response.message === \"Error while deleting skill Object reference not set to an instance of an object.\") {\r",
+									"            pm.test(\"Negative Delete Skill\", function () {\r",
+									"                pm.expect(response.success).to.be.false;\r",
+									"                pm.expect(response.message).to.equal(\"Error while deleting skill Object reference not set to an instance of an object.\");\r",
+									"            });\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode === 401) {\r",
+									"    var response = pm.response.body;\r",
+									"    pm.test(\"Unable to Delete Skill without User being Authenticated\", function () {\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"PersonSkillId\": \"{{skillid}}\",\r\n  \"Skill\": \"Java34\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/deleteSkill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"deleteSkill"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Certification API",
+			"item": [
+				{
+					"name": "Add New Certification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion -1 check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var addCertificationschema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"        \"id\": { \"type\": \"string\" }\r",
+									"    },\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(addCertificationschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									" var statusCode = pm.response.code;\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var message = response.message;\r",
+									"   if (response.success === true) {\r",
+									"        pm.test(\"Validate - Positive Added Certification successfully\", function () {\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.environment.set(\"cert_id\", response.id);\r",
+									"        });\r",
+									"    } else {\r",
+									"        if (message === \"This information is already exist.\") {\r",
+									"            pm.test(\"Negative Duplicate Certification\", function () {\r",
+									"                pm.expect(response.success).to.be.false;\r",
+									"                pm.expect(response.message).to.equal(\"This information is already exist.\");\r",
+									"            });\r",
+									"        }\r",
+									"        if (message === \"Error while adding new certification\") {\r",
+									"            pm.test(\"Negative Empty Certification\", function () {\r",
+									"                pm.expect(response.success).to.be.false;\r",
+									"                pm.expect(response.message).to.equal(\"Error while adding new certification\");\r",
+									"            });\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode === 401) {\r",
+									"    var response = pm.response.body;\r",
+									"    pm.test(\"Unable to Add Certification without User being Authenticated\", function () {\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									"\t\t\t\t\t\t\t\t\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"certificationName\": \"AWS12 Beginner\",\r\n  \"certificationFrom\": \"New Zealand12\",\r\n  \"certificationYear\": \"2013\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/addCertification",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"addCertification"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add New Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationName\": \"AWS12 Beginner\",\r\n  \"certificationFrom\": \"New Zealand12\",\r\n  \"certificationYear\": \"2012\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Add New Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationName\": \"AWS125 Beginner\",\r\n  \"certificationFrom\": \"New Zealand125\",\r\n  \"certificationYear\": \"2017\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Add New Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationName\": \"AWS127 Beginner\",\r\n  \"certificationFrom\": \"New Zealand127\",\r\n  \"certificationYear\": \"2018\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Verify the certification list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion-1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var getlistCertificationschema = {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\": {\r",
+									"        \"type\": \"object\",\r",
+									"        \"default\":[],\r",
+									"        \"properties\": {\r",
+									"            \"id\": { \"type\": \"string\" },\r",
+									"            \"certificationName\": { \"type\": \"string\" },\r",
+									"            \"certificationFrom\": { \"type\": \"string\" },\r",
+									"            \"certificationYear\": { \"type\": \"integer\" }\r",
+									"        },\r",
+									"        \r",
+									"    }\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(getlistCertificationschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"\r",
+									"var statusCode = pm.response.code\r",
+									"// Assertion -2 Validate successful retrieval of skills list\r",
+									"if (statusCode === 200) {\r",
+									"pm.test(\"Get The List of Certifications successfully\", function () {\r",
+									"    var response = pm.response.json()\r",
+									"    pm.expect(response).to.be.an('array')\r",
+									"});\r",
+									"}\r",
+									"// Assertion -3 Unable to retrieve skills list without authentication\r",
+									"else if (statusCode === 401) {\r",
+									"pm.test(\"Unable to return Certifications because user is not Authenticated\", function () {\r",
+									"    pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getCertification",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getCertification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update the certification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion -1 check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var Updatecertificationschema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"    },\r",
+									"    \"required\": [\"success\"]\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(Updatecertificationschema);\r",
+									"});\r",
+									"var statusCode = pm.response.code;\r",
+									"//Assertion -2 updated successfully\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var message = response.message;\r",
+									"// Assertion -3 Successful skill update\r",
+									"  if (response.success === true) {\r",
+									"pm.test(\"Validate Updated Certification Successfully\", function () {\r",
+									"\t  pm.expect(response.success).to.be.true;\r",
+									"      var certId = pm.environment.get(\"cert_id\"); \r",
+									"\t  pm.expect(certId).to.exist;\r",
+									"});\r",
+									"\t} \r",
+									"// Assertion -4 Duplicate skill\r",
+									"else if (message === \"This information is already exist.\") {\r",
+									"\tpm.test(\"Validate Duplicate Skill\", function () {\r",
+									"\tpm.expect(response.success).to.be.false;\r",
+									"pm.expect(response.message).to.equal(\"This information is already exist.\");\r",
+									"});\r",
+									"    } \r",
+									"//Assertion -5 check update without singin\r",
+									"if (statusCode === 401) {\r",
+									"    var response = pm.response.body;\r",
+									"    pm.test(\"Unable to Update Certification without User being Authenticated\", function () {\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{cert_id}}\",\r\n  \"certificationName\": \"java345\",\r\n  \"certificationFrom\": \"MVP2354\",\r\n  \"certificationYear\": \"2015\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/updateCertification",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"updateCertification"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Duplicate Update the certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{cert_id}}\",\r\n  \"certificationName\": \"java345\",\r\n  \"certificationFrom\": \"MVP2354\",\r\n  \"certificationYear\": \"2015\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Update the certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{cert_id}}\",\r\n  \"certificationName\": \"java34\",\r\n  \"certificationFrom\": \"MVP234\",\r\n  \"certificationYear\": \"2016\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Certification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var DeletedCertificationschema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"        \"certificationName\":{\"type\":\"string\"}\r",
+									"    },\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(DeletedCertificationschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"\r",
+									"// Assertion - Validate certification deleted successfully\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Validate - Positive Delete Certification successfully\", function () {\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.certificationName).to.not.be.empty;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Delete Certification without User being Authenticated\", function () {\r",
+									"        pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"if (statusCode === 500) {\r",
+									"    pm.test(\"Unable to Delete Certification due to error 500\", function () {\r",
+									"        pm.expect(pm.response.text()).to.include(\"Internal Server Error\");\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{cert_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/deleteCertification",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"deleteCertification"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Manage Listing",
+			"item": [
+				{
+					"name": "Add Lising",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion -1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var AddListingschema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"        \"editFlag\": { \"type\": \"boolean\" },\r",
+									"        \"id\": { \"type\": \"string\" }\r",
+									"    },\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(AddListingschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"var statusCode = pm.response.code;\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Validate - Successfully Add Listing\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.environment.set(\"listingid\", response.id);\r",
+									"            pm.expect(response.editFlag).to.exist;\r",
+									"        });\r",
+									"    } else {\r",
+									"        pm.test(\"Validate - Unsuccessful Add Listing\", function () {\r",
+									"            pm.expect.fail(\"Listing addition was not successful\");\r",
+									"        });\r",
+									"    }\r",
+									"} else if (statusCode === 500 || statusCode === 401) {\r",
+									"    var errorMessage = {\r",
+									"        500: \"Internal Server Error\",\r",
+									"        401: \"User is not Authenticated\"\r",
+									"    };\r",
+									"\r",
+									"    pm.test(`Unable to Add Listing because of ${errorMessage[statusCode]}`, function () {\r",
+									"        pm.expect.fail(`Request failed with status ${statusCode}: ${errorMessage[statusCode]}`);\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.test(\"Unhandled Status Code\", function () {\r",
+									"        pm.expect.fail(`Received unhandled status code: ${statusCode}`);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"software Testing\",\r\n  \"description\": \"good Knowledge in software testing\",\r\n  \"categoryId\": \"6\",\r\n  \"subcategoryId\": \"3\",\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"ISTQB\",\r\n      \"text\": \"AWS\"\r\n    },\r\n    {\r\n      \"id\": \"Azure\",\r\n      \"text\": \"Cloud\"\r\n    }\r\n  ],\r\n  \"serviceType\": 0,\r\n  \"locationType\": 1,\r\n  \"availability\": {\r\n    \"startDate\": \"2024-11-13\",\r\n    \"endDate\": \"2025-01-02\",\r\n    \"dayEntries\": [\r\n      {\r\n        \"StartTime\": \"11:19\",\r\n        \"EndTime\": \"17:20\",\r\n        \"Available\": true\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      }\r\n    ]\r\n  },\r\n  \"skillTrade\": [],\r\n  \"isTradable\": false,\r\n  \"charge\": 8,\r\n  \"credentials\": true,\r\n  \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/addListing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"addListing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate the listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Aessertion -1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var ValidateListingschema = {\r",
+									"    \"default\": {},\r",
+									"    \"items\": {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"            \"success\": { \"type\": \"boolean\" },\r",
+									"            \"data\": { \"type\": \"array\" },\r",
+									"            \"count\": { \"type\": \"integer\" }\r",
+									"        },\r",
+									"    }\r",
+									"};\r",
+									"pm.test(\"Validate get Listing schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(ValidateListingschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"// Assertion-Validate the response while retrieving service listings.\r",
+									"var statusCode = pm.response.code;\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Validate- Get Multiple Service Listing Successfully\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.data).to.be.an('array');\r",
+									"            pm.expect(response.count).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 500) {\r",
+									"     pm.test(\"Unable to Get Multiple Service Listings due to Internal Server Error\", function () {\r",
+									"        pm.expect.fail(\"Internal Server Error\");\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Get Multiple Service Listings because user is not Authenticated\", function () {\r",
+									"        pm.expect.fail(\"User is not Authenticated\");\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"offset\": 0,\r\n  \"limit\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/getMultipleServiceListing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"getMultipleServiceListing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion-1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var Validategetserviceschema = {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\"},\r",
+									"        \"serviceListing\": {\"type\": \"object\"},\r",
+									"        \"categoryTuple\":{\"type\":\"object\"},\r",
+									"        \"currentUserId\":{\"type\":\"string\"},\r",
+									"        \"id\":{\"type\":\"string\"},\r",
+									"        \"sellerId\": {\"type\": \"string\"},\r",
+									"         \"charge\":{\"type\":\"number\"},\r",
+									"         \"title\":{\"type\": \"string\"},\r",
+									"         \"description\":{\"type\": \"string\"},\r",
+									"         \"serviceType\":{\"type\":\"integer\"},\r",
+									"         \"locationType\":{\"type\":\"integer\"},\r",
+									"         \"availability\":{\"type\": \"object\"},\r",
+									"         \"workSample\":{\"type\":\"null\"},\r",
+									"         \"categoryId\":{\"type\":\"integer\"},\r",
+									"         \"subcategoryId\":{\"type\":\"integer\"},\r",
+									"         \"tags\":{\"type\":\"array\"},\r",
+									"         \"comments\":{\"type\":\"null\"},\r",
+									"         \"ratings\":{\"type\":\"null\"},\r",
+									"         \"ratingAverages\":{\"type\":\"null\"},\r",
+									"         \"ratingTotalsAndCounts\":{\"type\":\"null\"},\r",
+									"         \"skillTrade\":{\"type\":\"array\"},\r",
+									"         \"isTradable\":{\"type\":\"boolean\"},\r",
+									"         \"isActive\":{\"typr\":\"boolean\"},\r",
+									"         \"createdOn\":{\"type\":\"string\"},\r",
+									"         \"createdBy\":{\"type\":\"string\"},\r",
+									"         \"updatedOn\":{\"type\":\"string\"},\r",
+									"         \"updatedBy\":{\"type\":\"null\"},\r",
+									"         \"isDeleted\":{\"type\":\"boolean\"},\r",
+									"    }\r",
+									"   \r",
+									"};\r",
+									"    \r",
+									"pm.test(\"Validate get Listing schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(Validategetserviceschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"//Assertion-2 Validate the response while retrieving the service by ID\r",
+									"var statusCode = pm.response.code;\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Validate - Get listings by ID Successfully\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.serviceListing).to.be.an('object');\r",
+									"            pm.expect(response.categoryTuple).to.be.an('object');\r",
+									"            pm.expect(response.currentUserId).to.exist;\r",
+									"        });\r",
+									"    } else {\r",
+									"        pm.test(\"Unable to Get Service\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode === 401) {\r",
+									"     pm.test(\"Unable to Get Service listing because user is not Authenticated\", function () {\r",
+									"        pm.expect.fail(\"User is not Authenticated\");\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/GetService/?id={{listingid}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"GetService",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{listingid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var validategetbalanceschema = {\r",
+									"    \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\"},\r",
+									"        \"balance\": {\"type\": \"number\"},\r",
+									"        }\r",
+									"};\r",
+									"pm.test(\"Validate get balance schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(validategetbalanceschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"// Parse the response JSON\r",
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"// Check if the request was successful and if the balance is correct\r",
+									"if (responseData.success === true) {\r",
+									"    pm.test(\"Verify Balance\", function () {\r",
+									"        pm.expect(responseData.success).to.be.true;\r",
+									"        pm.expect(responseData.balance).to.equal(100.0);\r",
+									"    });\r",
+									"} else {\r",
+									"    // If the request was not successful, fail the test\r",
+									"    pm.test(\"Request was not successful\", function () {\r",
+									"        pm.expect.fail(\"Request was not successful\");\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/getBalance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"getBalance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ToggleActive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var ValidateToggleSchema = {\r",
+									"    \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\"},\r",
+									"        \"active\": {\"type\": \"boolean\"},\r",
+									"        }\r",
+									"};\r",
+									"pm.test(\"Validate get Toggle schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(ValidateToggleSchema);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"// Assertion-Validate the response while active and disable the Toggles.\r",
+									"var statusCode = pm.response.code;\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        if (response.active == true) {\r",
+									"            pm.test(\"Validate - Toggle is active\", function () {\r",
+									"                pm.response.to.have.status(200);\r",
+									"                pm.expect(response.success).to.be.true;\r",
+									"                pm.expect(response.active).to.be.true;\r",
+									"            });\r",
+									"        } else {\r",
+									"            pm.test(\"Validate - Toggle is Disabled\", function () {\r",
+									"                pm.response.to.have.status(200);\r",
+									"                pm.expect(response.success).to.be.true;\r",
+									"                pm.expect(response.active).to.be.false;\r",
+									"            });\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 500) {\r",
+									"    pm.test(\"Unable to Send Trade Request because of an Internal Server Error\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined();\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"    pm.test(\"Unable to Send Trade Request because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined();\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{{listingid}}\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/toggleIsActive",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"toggleIsActive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Work Samples",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion -1 check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var validateWorksampleSchema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\"},\r",
+									"        \"defaultImg\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"pm.test(\"Validate WorkSmaple schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(validateWorksampleSchema);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"// Parse response body as JSON\r",
+									"var responseBody = pm.response.json();\r",
+									"// Check if success is false\r",
+									"if (responseBody.success === false) {\r",
+									"    // Log default image URL\r",
+									"    console.log(\"Default Image URL:\", responseBody.defaultImg);\r",
+									"} else {\r",
+									"    // Check the success response\r",
+									"    console.log(\"Success:\", responseBody.success);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{{listingid}}\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/getWorkSample/?id={{listingid}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"getWorkSample",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{listingid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate the categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion -1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var Validatecategoriesserviceschema = {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\"},\r",
+									"        \"categories\": {\"type\": \"array\"},\r",
+									"        \"id\":{\"type\":\"string\"},\r",
+									"        \"value\":{\"type\":\"string\"},\r",
+									"        \"name\":{\"type\":\"string\"},\r",
+									"        \"subcategory\": {\"type\": \"array\"},\r",
+									"         \"isDeleted\":{\"type\":\"boolean\"},\r",
+									"        }\r",
+									"};\r",
+									"pm.test(\"Validate the Categories schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(Validatecategoriesserviceschema);\r",
+									"});\r",
+									" pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});       \r",
+									"// Assertion: Validate the response while getting all category listings.\r",
+									"var statusCode = pm.response.code;\r",
+									"var responseBody = pm.response.json();\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Successfully Get Categories\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.categories).to.be.an('array');\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									" else {\r",
+									"    // check the category failure response\r",
+									"    console.log(\"Success is false\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/getCategories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"getCategories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion -1 check for the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var validatedeletelistingschema = {\r",
+									"    \"item\" : {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"       \"success\":{\"type\":\"boolean\"},\r",
+									"       \"title\":{\"type\":\"string\"},\r",
+									"    }\r",
+									"    }\r",
+									"};\r",
+									"pm.test(\"validate the delete servicelisting schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(validatedeletelistingschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"// Assertion - Check the response while delete listings\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Validate - Successfully Deleted Listing\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.title).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode === 500) {\r",
+									"    pm.test(\"Unable to Delete Listing because of an Internal Server Error\", function () {\r",
+									"        pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Delete Listing because user is not Authenticated\", function () {\r",
+									"        pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{{listingid}}\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/deleteServiceListing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"deleteServiceListing"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile API",
+			"item": [
+				{
+					"name": "Add Description",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion -1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var AddDescriptionschema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\" },\r",
+									"        \"message\":{\"type\":\"string\"},\r",
+									"    }\r",
+									"};\r",
+									"// Assertion - Validate JSON Schema\r",
+									"pm.test(\"Validate AddDescription schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(AddDescriptionschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"\r",
+									"//Assertion -2 Validate the added Description\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    pm.test(\"Successfully Added Profile Description\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.response.to.have.status(200);\r",
+									"        pm.expect(response.message).to.equal(\"Description Updated Successfully\");\r",
+									"        pm.expect(response.success).to.be.true;\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Add Info because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.expect(response).to.eql({});\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"personId\": 0,\r\n  \"description\": \"Hi I am good at Manual and automation testing.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/addInfo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"addInfo"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Description",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"personId\": 0,\r\n  \"description\": \"Hi I am good at Preformance testing.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addInfo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addInfo"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Add Description",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"personId\": 0,\r\n  \"description\": \"Hi I am good at Postman API testing.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addInfo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addInfo"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Profile Details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion -1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Parse the response JSON\r",
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"// Test cases for different fields in the response\r",
+									"pm.test(\"Response contains 'success' field\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"success\", true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'enableEdit' field\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"enableEdit\", true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'firstName' field\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"firstName\", \"priya\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'lastName' field\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"lastName\", \"Raja\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'availability' object\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"availability\").that.is.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'languages' array\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"languages\").that.is.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'skills' array\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"skills\").that.is.an(\"array\").and.has.lengthOf.at.least(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'educations' array\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"educations\").that.is.an(\"array\").and.has.lengthOf.at.least(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'certifications' array\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"certifications\").that.is.an(\"array\").and.has.lengthOf.at.least(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'profilePhoto' object\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"profilePhoto\").that.is.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'description' object\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"description\").that.is.an(\"object\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getProfileDetails/?id=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getProfileDetails",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification API",
+			"item": [
+				{
+					"name": "New Notification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"var validateNewNotificationSchema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"success\": { \"type\": \"boolean\"},\r",
+									"        \"noOfNotification\": {\"type\": \"integer\"},\r",
+									"        \"noOfMessages\": {\"type\": \"integer\"},\r",
+									"\r",
+									"    }\r",
+									"};\r",
+									"pm.test(\"Validate New Notification schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(validateNewNotificationSchema);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"\r",
+									"// Assertion - Validate the response while retrieving notification count.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Successfully Get New Notification Count\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.noOfNotification).to.exist;\r",
+									"            pm.expect(response.noOfMessages).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Get Notification Count because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/notification/notification/getNewNotificationCount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"notification",
+								"notification",
+								"getNewNotificationCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate the get notification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var validategetNotificationschema = {\r",
+									"    \"items\": {\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"success\":{\"type\":\"boolean\"},\r",
+									"            \"userNotifications\":{\"type\":\"array\"},\r",
+									"            \"id\":{\"type\":\"string\"},\r",
+									"            \"name\":{\"type\":\"string\"},\r",
+									"            \"url\":{\"type\":\"string\"},\r",
+									"            \"message\":{\"type\":\"string\"},\r",
+									"            \"isViewed\":{\"type\":\"boolean\"},\r",
+									"            \"updatedOn\":{\"type\":\"string\"},\r",
+									"            \"notificationType\":{\"type\":\"integer\"},\r",
+									"            \"icon\":{\"type\":\"string\"},\r",
+									"            \"totalCount\":{\"type\":\"integer\"},\r",
+									"\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"pm.test(\"Validate the get Notification schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(validategetNotificationschema);\r",
+									"});\r",
+									"pm.test(\"status code has a string \" , function(){\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is present\", () => {\r",
+									"        pm.response.to.have.header(\"Content-Type\");\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server header is Kestrel\", () => {\r",
+									"    pm.expect(pm.response.headers.get('Server')).to.eql('Kestrel');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2200ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2200);\r",
+									"});\r",
+									"\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Successfully Load More Notifications\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.userNotifications).to.be.an('array');\r",
+									"            pm.expect(response.totalCount).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"} else if (statusCode === 401) {\r",
+									"     pm.test(\"Unable to Load More Notifications because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined();\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/notification/notification/getNotification/?loadMore=5&offSet=5&_=1710890671702",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"notification",
+								"notification",
+								"getNotification",
+								""
+							],
+							"query": [
+								{
+									"key": "loadMore",
+									"value": "5"
+								},
+								{
+									"key": "offSet",
+									"value": "5"
+								},
+								{
+									"key": "_",
+									"value": "1710890671702"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Notification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion -1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Assertion: Validate the response when given notification number.\r",
+									"\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    pm.test(\"Successfully Read All Notification\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.response.to.have.status(200);\r",
+									"        pm.expect(response.success).to.be.true;\r",
+									"    });\r",
+									"}\r",
+									" else if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Read All Notifications because user is not Authenticated\", function () {\r",
+									"        pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.test(\"Unhandled status code\", function () {\r",
+									"        pm.expect.fail(\"Unhandled status code: \" + statusCode);\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/notification/notification/readMarkedNotifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"notification",
+								"notification",
+								"readMarkedNotifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Notification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion: Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Assertion: Validate the response while deleting marked notifications\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Successfully Remove Marked Notifications\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"        });\r",
+									"    } else {\r",
+									"        pm.test(\"Unable to Remove Marked Notifications\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"} else if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Remove Marked Notification because user is not Authenticated\", function () {\r",
+									"        pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.test(\"Unhandled status code\", function () {\r",
+									"        pm.expect.fail(\"Unhandled status code: \" + statusCode);\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/notification/notification/removeMarkedNotifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"notification",
+								"notification",
+								"removeMarkedNotifications"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat API",
+			"item": [
+				{
+					"name": "first chat Room",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion: Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Assertion: Validate the response when given notification number\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Successfully Get The First Chatroom\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response).to.have.keys('success', 'chatroom', 'myCurrentUser');\r",
+									"        });\r",
+									"    }\r",
+									"} else if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Get First Chatroom because user is not Authenticated\", function () {\r",
+									"        pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.test(\"Unhandled status code\", function () {\r",
+									"        pm.expect.fail(\"Unhandled status code: \" + statusCode);\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getFirstChatroom",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getFirstChatroom"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Chat Room Details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Assertion -1 Check the status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Successfully Get Chat Room Details\", function () {\r",
+									"            pm.expect(pm.response).to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.result).to.be.an('array');\r",
+									"        });\r",
+									"    } else {\r",
+									"        pm.test(\"Get Chat Room details Unsuccessful\", function () {\r",
+									"            pm.expect(pm.response).to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.equal(\"Error while retrieving chatroom details\");\r",
+									"        });\r",
+									"    }\r",
+									"} else if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Get Chat Room Details because user is not Authenticated\", function () {\r",
+									"        pm.expect(pm.response.text()).to.be.empty;\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.test(\"Unhandled status code\", function () {\r",
+									"        pm.expect.fail(\"Unhandled status code: \" + statusCode);\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"UserIdToList\": [\r\n    \"648f9f474d336600017ec271\",\r\n    \"65c4284d85c03a00012fe280\",\r\n    \"648fa28c3217d60001caa6ff\",\r\n    \"65c4284d85c03a00012fe280\",\r\n    \"65f402097dfee40001689eda\",\r\n    \"65f77e4ae5a2450001235753\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getChatRoomDetailsList/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getChatRoomDetailsList",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

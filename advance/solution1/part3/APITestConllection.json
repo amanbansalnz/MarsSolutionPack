@@ -1,0 +1,4043 @@
+{
+	"info": {
+		"_postman_id": "5ff23639-3982-47cb-9ce9-73e8afd9fc22",
+		"name": "AdvancedTaskAPITest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24193385"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Sign Up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"isSuccess message should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.isSuccess).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"isSuccess\":{\"type\":\"boolean\"}  \r",
+									"    },\r",
+									"    \"required\":[\"isSuccess\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{signUpEmail}}\",\r\n    \"firstName\": \"{{signUpFirstName}}\",\r\n    \"lastName\": \"{{signUpLastName}}\",\r\n    \"password\": \"{{signUpPassword}}\",\r\n    \"terms\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{user_base_url}}/authentication/authentication/signup",
+							"host": [
+								"{{user_base_url}}"
+							],
+							"path": [
+								"authentication",
+								"authentication",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign In to Mars",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json()\r",
+									"var user_token = jsonData.token.token\r",
+									"pm.environment.set(\"env_token\", \"Bearer\"+\" \"+user_token)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Success Message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.isSuccess).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"isSuccess\":{\"type\":\"boolean\"},\r",
+									"     \"token\":{\r",
+									"        \"type\": \"object\",\r",
+									"        \"token\":{\"type\":\"string\"},\r",
+									"        \"expires\":{\"type\":\"boolean\"}\r",
+									"     }    \r",
+									"    },\r",
+									"    \"required\":[\"isSuccess\",\"token\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rememberMe\": false,\r\n    \"email\": \"eddie123456@gmail.com\",\r\n    \"password\": \"eddie1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{user_base_url}}/authentication/authentication/signin",
+							"host": [
+								"{{user_base_url}}"
+							],
+							"path": [
+								"authentication",
+								"authentication",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should same as expect\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Password Changed Successfully\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"message\":{\"type\":\"string\"}\r",
+									"    },\r",
+									"    \"required\":[\"success\",\"message\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"oldPassword\": \"{{password}}\",\r\n  \"newPassword\": \"{{newPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{user_base_url}}/authentication/authentication/updatePassword",
+							"host": [
+								"{{user_base_url}}"
+							],
+							"path": [
+								"authentication",
+								"authentication",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "User Details",
+					"item": [
+						{
+							"name": "User Details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Message should be same as expected message\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Availability Updated Successfully\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"message\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"message\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"AvailabilityType\": \"{{availabilityType}}\",\r\n    \"AvailableHours\": {{availableHours}},\r\n    \"EarnTarget\": {{earnTarget}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/updateAvailability",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"updateAvailability"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Description",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"message\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"message\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"personId\": 0,\r\n  \"description\": \"{{description}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/addInfo",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"addInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"pm.test(\"Username should be same as expect\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.username).to.eql(\"Eddie\");\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"username\":{\"type\":\"string\"},\r",
+											"     \"isDeactivated\":{\"type\":\"boolean\"}\r",
+											"    },\r",
+											"    \"required\":[\"username\",\"isDeactivated\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/getProfile",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"getProfile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Profile Photo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"pm.test(\"Success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"myPhotoUrl\":{\"type\":\"string\"},\r",
+											"     \"otherPhotoUrl\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"myPhotoUrl\",\"otherPhotoUrl\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/getProfilePhoto/",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"getProfilePhoto",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Seller Details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/getSellerDetails/",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"getSellerDetails",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Is user Authenticated",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"pm.test(\"Username should be same as expect\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.username).to.eql(\"Eddie\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"isAuthenticated\":{\"type\":\"boolean\"},\r",
+											"     \"username\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"isAuthenticated\",\"username\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/isUserAuthenticated",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"isUserAuthenticated"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"pm.test(\"Message should be same as expect\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Firstname and Lastname Changed\");\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"message\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"message\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"{{lastName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/updateFirstAndLastName",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"updateFirstAndLastName"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Languages",
+					"item": [
+						{
+							"name": "Add Languages",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json()\r",
+											"var language_id = jsonData.id\r",
+											"pm.globals.set(\"languages_id\",language_id);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"id\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"id\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{languageName}}\",\r\n  \"level\": \"{{languageLevel}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/addLanguage",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"addLanguage"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Languages",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"message\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"message\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{languages_id}}\",\r\n  \"name\": \"{{updateLanguageName}}\",\r\n  \"level\": \"{{updateLanguageLevel}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/updateLanguage",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"updateLanguage"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Languages",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"pm.test(\"language should be showing Cantonese\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.language).to.eql(\"Cantonese\");\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"array\",\r",
+											"    \"items\": {\r",
+											"        \"type\": \"object\",\r",
+											"        \"required\": [\r",
+											"            \"personLanguageId\",\r",
+											"            \"language\",\r",
+											"            \"languageLevel\"\r",
+											"        ],\r",
+											"        \"properties\": {\r",
+											"            \"personLanguageId\": {\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"language\": {\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"languageLevel\": {\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        }\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/getLanguage",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"getLanguage"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Languages",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"language\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"language\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{languages_id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/deleteLanguage",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"deleteLanguage"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Skills",
+					"item": [
+						{
+							"name": "Add Skills",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success Message\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json()\r",
+											"var skill_id = jsonData.id\r",
+											"pm.globals.set(\"skills_id\",skill_id);\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"id\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"id\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": 0,\r\n  \"Skill\": \"{{skill}}\",\r\n  \"ExperienceLevel\": \"{{experienceLevel}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/addSkill",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"addSkill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Skills",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"id\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"id\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"PersonSkillId\": \"{{skills_id}}\",\r\n    \"Skill\": \"{{updateSkill}}\",\r\n    \"ExperienceLevel\": \"{{updateExperienceLevel}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/updateSkill",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"updateSkill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Skill",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"pm.test(\"Skill should be Blues\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.skill).to.eql(\"Blues\");\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"personSkillId\":{\"type\":\"string\"},\r",
+											"     \"skill\":{\"type\":\"string\"},\r",
+											"     \"experienceLevel\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"personSkillId\",\"skill\",\"experienceLevel\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/getSkill",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"getSkill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Skills",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"skill\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"skill\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skills_id}}\",\r\n  \"Skill\": \"{{updateSkill}}\",\r\n  \"ExperienceLevel\": \"{{updateExperienceLevel}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/deleteSkill",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"deleteSkill"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Educations",
+					"item": [
+						{
+							"name": "Add Educations",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json()\r",
+											"var education_id = jsonData.id\r",
+											"pm.globals.set(\"educations_id\",education_id);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"id\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"id\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"country\": \"{{eduCountry}}\",\r\n  \"degree\": \"{{eduDegree}}\",\r\n  \"instituteName\": \"{{eduInstituteName}}\",\r\n  \"title\": \"{{eduTitle}}\",\r\n  \"yearOfGraduation\": \"{{eduYear}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/addEducation",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"addEducation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Educations",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"message\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"message\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"country\": \"{{updateEduCountry}}\",\r\n  \"degree\": \"{{updateEduDegree}}\",\r\n  \"id\": \"{{educations_id}}\",\r\n  \"instituteName\": \"{{updateEduInstituteName}}\",\r\n  \"title\": \"{{updateEduTitle}}\",\r\n  \"yearOfGraduation\": {{updateEduYear}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/updateEducation",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"updateEducation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Education",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"pm.test(\"success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"required\": [\r",
+											"        \"success\",\r",
+											"        \"education\"\r",
+											"    ],\r",
+											"    \"properties\": {\r",
+											"        \"success\": {\r",
+											"            \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"education\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": {\r",
+											"                \"type\": \"object\",\r",
+											"                \"required\": [\r",
+											"                    \"id\",\r",
+											"                    \"uId\",\r",
+											"                    \"userId\",\r",
+											"                    \"instituteName\",\r",
+											"                    \"country\",\r",
+											"                    \"title\",\r",
+											"                    \"degree\",\r",
+											"                    \"yearOfGraduation\",\r",
+											"                    \"createdOn\",\r",
+											"                    \"createdBy\",\r",
+											"                    \"updatedOn\",\r",
+											"                    \"updatedBy\",\r",
+											"                    \"isDeleted\"\r",
+											"                ],\r",
+											"                \"properties\": {\r",
+											"                    \"id\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"uId\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"userId\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"instituteName\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"country\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"title\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"degree\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"yearOfGraduation\": {\r",
+											"                        \"type\": \"integer\"\r",
+											"                    },\r",
+											"                    \"createdOn\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"createdBy\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"updatedOn\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"updatedBy\": {\r",
+											"                        \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"isDeleted\": {\r",
+											"                        \"type\": \"boolean\"\r",
+											"                    }\r",
+											"                }\r",
+											"            }\r",
+											"        }\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/getEducation",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"getEducation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Educations",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"pm.test(\"Message should be same as expect\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Education Deleted Successfully\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"message\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"message\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{educations_id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/deleteEducation",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"deleteEducation"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Certifications",
+					"item": [
+						{
+							"name": "Add Certification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success Message\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json()\r",
+											"var certification_id = jsonData.id\r",
+											"pm.globals.set(\"certification_id\",certification_id);\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"id\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"id\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationName\": \"{{certiName}}\",\r\n  \"certificationFrom\": \"{{certiForm}}\",\r\n  \"certificationYear\": \"{{certiYear}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/addCertification",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"addCertification"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Certification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{certification_id}}\",\r\n  \"certificationName\": \"{{updateCerName}}\",\r\n  \"certificationFrom\": \"{{updateCerForm}}\",\r\n  \"certificationYear\": \"{{updateCerYear}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/updateCertification",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"updateCertification"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Certification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"pm.test(\"Certification Name should be same as expect\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.certificationName).to.eql(\"Master of Blue\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"array\",\r",
+											"    \"items\": {\r",
+											"        \"type\": \"object\",\r",
+											"        \"required\": [\r",
+											"            \"id\",\r",
+											"            \"certificationName\",\r",
+											"            \"certificationFrom\",\r",
+											"            \"certificationYear\"\r",
+											"        ],\r",
+											"        \"properties\": {\r",
+											"            \"id\": {\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"certificationName\": {\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"certificationFrom\": {\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"certificationYear\": {\r",
+											"                \"type\": \"integer\"\r",
+											"            }\r",
+											"        }\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/getCertification",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"getCertification"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Certification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success message should be true\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\":{\r",
+											"     \"success\":{\"type\":\"boolean\"},\r",
+											"     \"certificationName\":{\"type\":\"string\"}\r",
+											"    },\r",
+											"    \"required\":[\"success\",\"certificationName\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Validate response schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{env_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{certification_id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{profile_base_url}}/profile/profile/deleteCertification",
+									"host": [
+										"{{profile_base_url}}"
+									],
+									"path": [
+										"profile",
+										"profile",
+										"deleteCertification"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Manage Listings",
+			"item": [
+				{
+					"name": "Add new listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json()\r",
+									"var listing_id = jsonData.id\r",
+									"pm.globals.set(\"listings_id\",listing_id);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"id\":{\"type\":\"string\"},\r",
+									"     \"editFlag\":{\"type\":\"boolean\"}\r",
+									"    },\r",
+									"    \"required\":[\"success\",\"id\",\"editFlag\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{skillTitle}}\",\r\n    \"description\": \"{{skillDescription}}\",\r\n    \"categoryId\": \"{{skillCategoryId}}\",\r\n    \"subcategoryId\": \"{{skillSubcategoryId}}\",\r\n    \"tags\": [\r\n        {\r\n            \"id\": \"{{tagsId1}}\",\r\n            \"text\": \"{{tagsText1}}\"\r\n        },\r\n        {\r\n            \"id\": \"{{tagsId2}}\",\r\n            \"text\": \"{{tagsText2}}\"\r\n        }\r\n    ],\r\n    \"serviceType\": {{skillServiceType}},\r\n    \"locationType\": {{skillLocationType}},\r\n    \"availability\": {\r\n        \"startDate\": \"{{skillStartDate}}\",\r\n        \"endDate\": \"{{skillEndDate}}\",\r\n        \"dayEntries\": [\r\n            {\r\n                \"StartTime\": \"{{skillStartTime}}\",\r\n                \"EndTime\": \"{{skillEndTime}}\",\r\n                \"Available\": {{skillAvailable}}\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            }\r\n        ]\r\n    },\r\n    \"skillTrade\": [\r\n        {\r\n            \"id\": \"{{skillTradeId}}\",\r\n            \"text\": \"{{skillTradeText}}\"\r\n        }\r\n    ],\r\n    \"isTradable\": {{isTradable}},\r\n    \"charge\": {{skillCharge}},\r\n    \"credentials\": {{skillCredentials}},\r\n    \"isActive\": {{skillIsActive}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/addListing",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"addListing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new listing 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json()\r",
+									"var listing2_id = jsonData.id\r",
+									"pm.globals.set(\"listings2_id\",listing2_id);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"id\":{\"type\":\"string\"},\r",
+									"     \"editFlag\":{\"type\":\"boolean\"}\r",
+									"    },\r",
+									"    \"required\":[\"success\",\"id\",\"editFlag\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{skillTitle}}\",\r\n    \"description\": \"{{skillDescription}}\",\r\n    \"categoryId\": \"{{skillCategoryId}}\",\r\n    \"subcategoryId\": \"{{skillSubcategoryId}}\",\r\n    \"tags\": [\r\n        {\r\n            \"id\": \"{{tagsId1}}\",\r\n            \"text\": \"{{tagsText1}}\"\r\n        },\r\n        {\r\n            \"id\": \"{{tagsId2}}\",\r\n            \"text\": \"{{tagsText2}}\"\r\n        }\r\n    ],\r\n    \"serviceType\": {{skillServiceType}},\r\n    \"locationType\": {{skillLocationType}},\r\n    \"availability\": {\r\n        \"startDate\": \"{{skillStartDate}}\",\r\n        \"endDate\": \"{{skillEndDate}}\",\r\n        \"dayEntries\": [\r\n            {\r\n                \"StartTime\": \"{{skillStartTime}}\",\r\n                \"EndTime\": \"{{skillEndTime}}\",\r\n                \"Available\": {{skillAvailable}}\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            },\r\n            {\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\",\r\n                \"Available\": false\r\n            }\r\n        ]\r\n    },\r\n    \"skillTrade\": [\r\n        {\r\n            \"id\": \"{{skillTradeId}}\",\r\n            \"text\": \"{{skillTradeText}}\"\r\n        }\r\n    ],\r\n    \"isTradable\": {{isTradable}},\r\n    \"charge\": {{skillCharge}},\r\n    \"credentials\": {{skillCredentials}},\r\n    \"isActive\": {{skillIsActive}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/addListing",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"addListing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Success Message should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"id\":{\"type\":\"string\"},\r",
+									"     \"editFlag\":{\"type\":\"boolean\"}\r",
+									"    },\r",
+									"    \"required\":[\"success\",\"id\",\"editFlag\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"LOL\",\r\n    \"description\": \"Hi!!Anyone play LOL?\",\r\n    \"categoryId\": 8,\r\n    \"subcategoryId\": \"5\",\r\n    \"tags\": [\r\n        {\r\n            \"id\": \"LOL\",\r\n            \"text\": \"LOL\"\r\n        },\r\n        {\r\n            \"id\": \"Games\",\r\n            \"text\": \"Games\"\r\n        }\r\n    ],\r\n    \"serviceType\": 1,\r\n    \"locationType\": 0,\r\n    \"availability\": {\r\n        \"startDate\": \"2023/10/30\",\r\n        \"endDate\": \"2023/11/30\",\r\n        \"dayEntries\": [\r\n            {\r\n                \"Available\": false,\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\"\r\n            },\r\n            {\r\n                \"Available\": true,\r\n                \"StartTime\": \"12:00\",\r\n                \"EndTime\": \"14:30\"\r\n            },\r\n            {\r\n                \"Available\": false,\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\"\r\n            },\r\n            {\r\n                \"Available\": false,\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\"\r\n            },\r\n            {\r\n                \"Available\": false,\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\"\r\n            },\r\n            {\r\n                \"Available\": false,\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\"\r\n            },\r\n            {\r\n                \"Available\": false,\r\n                \"StartTime\": \"\",\r\n                \"EndTime\": \"\"\r\n            }\r\n        ]\r\n    },\r\n    \"skillTrade\": [\r\n        {\r\n            \"id\": \"Hero\",\r\n            \"text\": \"Hero\"\r\n        }\r\n    ],\r\n    \"isTradable\": true,\r\n    \"charge\": 0,\r\n    \"credentials\": true,\r\n    \"isActive\": true,\r\n    \"id\": \"{{listings_id}}\",\r\n    \"sellerId\": \"647534923a2ba900019a4570\",\r\n    \"workSample\": null,\r\n    \"comments\": null,\r\n    \"ratings\": null,\r\n    \"ratingAverages\": null,\r\n    \"ratingTotalsAndCounts\": null,\r\n    \"createdOn\": \"2023-07-17T06:39:03.364Z\",\r\n    \"createdBy\": \"647534923a2ba900019a4570\",\r\n    \"updatedOn\": \"2023-08-24T23:51:59.057Z\",\r\n    \"updatedBy\": \"647534923a2ba900019a4570\",\r\n    \"isDeleted\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/addListing",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"addListing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Success message should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"title\":{\"type\":\"string\"}\r",
+									"    },\r",
+									"    \"required\":[\"success\",\"title\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{{listings_id}}\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/deleteServiceListing",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"deleteServiceListing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"}   \r",
+									"    },\r",
+									"    \"required\":[\"success\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/GetService/",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"GetService",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service Category Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"data\":{\r",
+									"        \"type\": \"array\",\r",
+									"        \"categoryId\":{\"type\":\"number\"},\r",
+									"        \"subcategoryId\":{\"type\":\"number\"},\r",
+									"        \"count\":{\"type\":\"number\"}\r",
+									"     }    \r",
+									"    },\r",
+									"    \"required\":[\"success\",\"data\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sortPagination\": {\r\n    \"limit\": 9,\r\n    \"offset\": 0\r\n  },\r\n  \"terms\": {\r\n    \"categoryIndex\": null,\r\n    \"searchString\": \"\",\r\n    \"subcategoryIndex\": null,\r\n    \"uId\": null\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/GetServiceCategoryCount",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"GetServiceCategoryCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"balance\":{\"type\":\"number\"}, \r",
+									"    },\r",
+									"    \"required\":[\"success\",\"balance\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/getBalance",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"getBalance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"success\",\r",
+									"        \"categories\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"success\": {\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"categories\": {\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"required\": [\r",
+									"                    \"id\",\r",
+									"                    \"value\",\r",
+									"                    \"name\",\r",
+									"                    \"subcategory\",\r",
+									"                    \"isDeleted\"\r",
+									"                ],\r",
+									"                \"properties\": {\r",
+									"                    \"id\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"value\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"name\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"subcategory\": {\r",
+									"                        \"type\": \"array\",\r",
+									"                        \"items\": {\r",
+									"                            \"type\": \"object\",\r",
+									"                            \"required\": [\r",
+									"                                \"id\",\r",
+									"                                \"value\",\r",
+									"                                \"name\",\r",
+									"                                \"isDeleted\"\r",
+									"                            ],\r",
+									"                            \"properties\": {\r",
+									"                                \"id\": {\r",
+									"                                    \"type\": \"null\"\r",
+									"                                },\r",
+									"                                \"value\": {\r",
+									"                                    \"type\": \"string\"\r",
+									"                                },\r",
+									"                                \"name\": {\r",
+									"                                    \"type\": \"string\"\r",
+									"                                },\r",
+									"                                \"isDeleted\": {\r",
+									"                                    \"type\": \"boolean\"\r",
+									"                                }\r",
+									"                            }\r",
+									"                        }\r",
+									"                    },\r",
+									"                    \"isDeleted\": {\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    }\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/getCategories",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"getCategories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Multiple Service Listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"success\",\r",
+									"        \"data\",\r",
+									"        \"count\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"success\": {\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"data\": {\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"required\": [\r",
+									"                    \"id\",\r",
+									"                    \"sellerId\",\r",
+									"                    \"charge\",\r",
+									"                    \"title\",\r",
+									"                    \"description\",\r",
+									"                    \"categoryId\",\r",
+									"                    \"category\",\r",
+									"                    \"subcategoryId\",\r",
+									"                    \"serviceType\",\r",
+									"                    \"locationType\",\r",
+									"                    \"availability\",\r",
+									"                    \"isTradable\",\r",
+									"                    \"isActive\",\r",
+									"                    \"tags\",\r",
+									"                    \"skillTrade\",\r",
+									"                    \"worksample\",\r",
+									"                    \"createdOn\",\r",
+									"                    \"createdBy\",\r",
+									"                    \"updatedOn\",\r",
+									"                    \"updatedBy\",\r",
+									"                    \"comments\",\r",
+									"                    \"ratingTotalsAndCounts\",\r",
+									"                    \"workSampleMainImg\",\r",
+									"                    \"isDeleted\"\r",
+									"                ],\r",
+									"                \"properties\": {\r",
+									"                    \"id\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"sellerId\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"charge\": {\r",
+									"                        \"type\": \"number\"\r",
+									"                    },\r",
+									"                    \"title\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"description\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"categoryId\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"category\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"subcategoryId\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"serviceType\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"locationType\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"availability\": {\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"required\": [\r",
+									"                            \"startDate\",\r",
+									"                            \"endDate\",\r",
+									"                            \"dayEntries\"\r",
+									"                        ],\r",
+									"                        \"properties\": {\r",
+									"                            \"startDate\": {\r",
+									"                                \"type\": \"string\"\r",
+									"                            },\r",
+									"                            \"endDate\": {\r",
+									"                                \"type\": \"string\"\r",
+									"                            },\r",
+									"                            \"dayEntries\": {\r",
+									"                                \"type\": \"array\",\r",
+									"                                \"items\": {\r",
+									"                                    \"type\": \"object\",\r",
+									"                                    \"required\": [\r",
+									"                                        \"startTime\",\r",
+									"                                        \"endTime\",\r",
+									"                                        \"available\"\r",
+									"                                    ],\r",
+									"                                    \"properties\": {\r",
+									"                                        \"startTime\": {\r",
+									"                                            \"type\": \"string\"\r",
+									"                                        },\r",
+									"                                        \"endTime\": {\r",
+									"                                            \"type\": \"string\"\r",
+									"                                        },\r",
+									"                                        \"available\": {\r",
+									"                                            \"type\": \"boolean\"\r",
+									"                                        }\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        }\r",
+									"                    },\r",
+									"                    \"isTradable\": {\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    },\r",
+									"                    \"isActive\": {\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    },\r",
+									"                    \"tags\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"skillTrade\": {\r",
+									"                        \"type\": \"array\",\r",
+									"                        \"items\": {\r",
+									"                            \"type\": \"object\",\r",
+									"                            \"required\": [\r",
+									"                                \"id\",\r",
+									"                                \"text\"\r",
+									"                            ],\r",
+									"                            \"properties\": {\r",
+									"                                \"id\": {\r",
+									"                                    \"type\": \"string\"\r",
+									"                                },\r",
+									"                                \"text\": {\r",
+									"                                    \"type\": \"string\"\r",
+									"                                }\r",
+									"                            }\r",
+									"                        }\r",
+									"                    },\r",
+									"                    \"worksample\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"createdOn\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"createdBy\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"updatedOn\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"updatedBy\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"comments\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"ratingTotalsAndCounts\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"workSampleMainImg\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"isDeleted\": {\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    }\r",
+									"                }\r",
+									"            }\r",
+									"        },\r",
+									"        \"count\": {\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"limit\": 5,\r\n  \"offset\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/getMultipleServiceListing",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"getMultipleServiceListing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Send Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"title\": \"Root Schema\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"success\",\r",
+									"        \"data\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"success\": {\r",
+									"            \"title\": \"The success Schema\",\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"data\": {\r",
+									"            \"title\": \"The data Schema\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"title\": \"A Schema\",\r",
+									"                \"type\": \"object\",\r",
+									"                \"required\": [\r",
+									"                    \"id\",\r",
+									"                    \"senderId\",\r",
+									"                    \"senderName\",\r",
+									"                    \"recipientId\",\r",
+									"                    \"recipientName\",\r",
+									"                    \"listingId\",\r",
+									"                    \"totalHours\",\r",
+									"                    \"totalAmount\",\r",
+									"                    \"status\",\r",
+									"                    \"isViewed\",\r",
+									"                    \"isCompletedBySender\",\r",
+									"                    \"isCompletedBySeller\",\r",
+									"                    \"category\",\r",
+									"                    \"categoryId\",\r",
+									"                    \"title\",\r",
+									"                    \"message\",\r",
+									"                    \"senderLastName\",\r",
+									"                    \"senderCity\",\r",
+									"                    \"senderCountry\",\r",
+									"                    \"createdOn\",\r",
+									"                    \"updatedOn\",\r",
+									"                    \"isTradable\"\r",
+									"                ],\r",
+									"                \"properties\": {\r",
+									"                    \"id\": {\r",
+									"                        \"title\": \"The id Schema\",\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"senderId\": {\r",
+									"                        \"title\": \"The senderId Schema\",\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"senderName\": {\r",
+									"                        \"title\": \"The senderName Schema\",\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"recipientId\": {\r",
+									"                        \"title\": \"The recipientId Schema\",\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"recipientName\": {\r",
+									"                        \"title\": \"The recipientName Schema\",\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"listingId\": {\r",
+									"                        \"title\": \"The listingId Schema\",\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"totalHours\": {\r",
+									"                        \"title\": \"The totalHours Schema\",\r",
+									"                        \"type\": \"number\"\r",
+									"                    },\r",
+									"                    \"totalAmount\": {\r",
+									"                        \"title\": \"The totalAmount Schema\",\r",
+									"                        \"type\": \"number\"\r",
+									"                    },\r",
+									"                    \"status\": {\r",
+									"                        \"title\": \"The status Schema\",\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"isViewed\": {\r",
+									"                        \"title\": \"The isViewed Schema\",\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    },\r",
+									"                    \"isCompletedBySender\": {\r",
+									"                        \"title\": \"The isCompletedBySender Schema\",\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    },\r",
+									"                    \"isCompletedBySeller\": {\r",
+									"                        \"title\": \"The isCompletedBySeller Schema\",\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    },\r",
+									"                    \"category\": {\r",
+									"                        \"title\": \"The category Schema\",\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"categoryId\": {\r",
+									"                        \"title\": \"The categoryId Schema\",\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"title\": {\r",
+									"                        \"title\": \"The title Schema\",\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"message\": {\r",
+									"                        \"title\": \"The message Schema\",\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"senderLastName\": {\r",
+									"                        \"title\": \"The senderLastName Schema\",\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"senderCity\": {\r",
+									"                        \"title\": \"The senderCity Schema\",\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"senderCountry\": {\r",
+									"                        \"title\": \"The senderCountry Schema\",\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"createdOn\": {\r",
+									"                        \"title\": \"The createdOn Schema\",\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"updatedOn\": {\r",
+									"                        \"title\": \"The updatedOn Schema\",\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"isTradable\": {\r",
+									"                        \"title\": \"The isTradable Schema\",\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    }\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/getSentRequests",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"getSentRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Trade Requests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"success\",\r",
+									"        \"data\",\r",
+									"        \"totalCount\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"success\": {\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"data\": {\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"required\": [\r",
+									"                    \"id\",\r",
+									"                    \"senderId\",\r",
+									"                    \"senderName\",\r",
+									"                    \"recipientId\",\r",
+									"                    \"recipientName\",\r",
+									"                    \"listingId\",\r",
+									"                    \"totalHours\",\r",
+									"                    \"totalAmount\",\r",
+									"                    \"status\",\r",
+									"                    \"isViewed\",\r",
+									"                    \"isCompletedBySender\",\r",
+									"                    \"isCompletedBySeller\",\r",
+									"                    \"category\",\r",
+									"                    \"categoryId\",\r",
+									"                    \"title\",\r",
+									"                    \"message\",\r",
+									"                    \"senderLastName\",\r",
+									"                    \"senderCity\",\r",
+									"                    \"senderCountry\",\r",
+									"                    \"createdOn\",\r",
+									"                    \"updatedOn\",\r",
+									"                    \"isTradable\"\r",
+									"                ],\r",
+									"                \"properties\": {\r",
+									"                    \"id\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"senderId\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"senderName\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"recipientId\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"recipientName\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"listingId\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"totalHours\": {\r",
+									"                        \"type\": \"number\"\r",
+									"                    },\r",
+									"                    \"totalAmount\": {\r",
+									"                        \"type\": \"number\"\r",
+									"                    },\r",
+									"                    \"status\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"isViewed\": {\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    },\r",
+									"                    \"isCompletedBySender\": {\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    },\r",
+									"                    \"isCompletedBySeller\": {\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    },\r",
+									"                    \"category\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"categoryId\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"title\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"message\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"senderLastName\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"senderCity\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"senderCountry\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"createdOn\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"updatedOn\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"isTradable\": {\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    }\r",
+									"                }\r",
+									"            }\r",
+									"        },\r",
+									"        \"totalCount\": {\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"direction\": \"descending\",\r\n  \"limit\": 5,\r\n  \"offset\": 0,\r\n  \"sortBy\": \"createdOn\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/getTradeRequests",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"getTradeRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Work Sample",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success message should be false\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(false);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"defaultImg\":{\"type\":\"string\"}    \r",
+									"    },\r",
+									"    \"required\":[\"success\",\"defaultImg\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/getWorkSample",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"getWorkSample"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Listings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"success\",\r",
+									"        \"data\",\r",
+									"        \"totalCount\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"success\": {\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"data\": {\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"required\": [\r",
+									"                    \"id\",\r",
+									"                    \"sellerId\",\r",
+									"                    \"sellerName\",\r",
+									"                    \"sellerFirstName\",\r",
+									"                    \"sellerLastName\",\r",
+									"                    \"profilePictureId\",\r",
+									"                    \"samplePictureId\",\r",
+									"                    \"photoSrc\",\r",
+									"                    \"samplePhotoSrc\",\r",
+									"                    \"charge\",\r",
+									"                    \"title\",\r",
+									"                    \"description\",\r",
+									"                    \"categoryId\",\r",
+									"                    \"subcategoryId\",\r",
+									"                    \"serviceType\",\r",
+									"                    \"isTradable\",\r",
+									"                    \"skillTrade\",\r",
+									"                    \"locationType\",\r",
+									"                    \"ratings\"\r",
+									"                ],\r",
+									"                \"properties\": {\r",
+									"                    \"id\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"sellerId\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"sellerName\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"sellerFirstName\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"sellerLastName\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"profilePictureId\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"samplePictureId\": {\r",
+									"                        \"type\": [\r",
+									"                            \"null\",\r",
+									"                            \"string\"\r",
+									"                        ]\r",
+									"                    },\r",
+									"                    \"photoSrc\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    },\r",
+									"                    \"samplePhotoSrc\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"charge\": {\r",
+									"                        \"type\": \"number\"\r",
+									"                    },\r",
+									"                    \"title\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"description\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"categoryId\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"subcategoryId\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"serviceType\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"isTradable\": {\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    },\r",
+									"                    \"skillTrade\": {\r",
+									"                        \"type\": \"array\",\r",
+									"                        \"items\": {\r",
+									"                            \"type\": \"object\",\r",
+									"                            \"required\": [\r",
+									"                                \"id\",\r",
+									"                                \"text\"\r",
+									"                            ],\r",
+									"                            \"properties\": {\r",
+									"                                \"id\": {\r",
+									"                                    \"type\": \"string\"\r",
+									"                                },\r",
+									"                                \"text\": {\r",
+									"                                    \"type\": \"string\"\r",
+									"                                }\r",
+									"                            }\r",
+									"                        }\r",
+									"                    },\r",
+									"                    \"locationType\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"ratings\": {\r",
+									"                        \"type\": \"null\"\r",
+									"                    }\r",
+									"                }\r",
+									"            }\r",
+									"        },\r",
+									"        \"totalCount\": {\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sortPagination\": {\r\n    \"limit\": 9,\r\n    \"offset\": 0\r\n  },\r\n  \"terms\": {\r\n    \"categoryIndex\": 1,\r\n    \"searchString\": \"\",\r\n    \"subcategoryIndex\": null,\r\n    \"uId\": null\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/searchListings",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"searchListings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Trade Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"id\":{\"type\":\"string\"}\r",
+									"     },\r",
+									"    \"required\":[\"success\",\"id\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ListingId\": \"64f4901046f5d700012fe8f9\",\r\n  \"Message\": \"test\",\r\n  \"TotalAmount\": 0,\r\n  \"TotalHours\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/sendTradeRequest",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"sendTradeRequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle ls Active",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success message should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"active\":{\"type\":\"boolean\"}\r",
+									"     },\r",
+									"    \"required\":[\"success\",\"active\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{{listings2_id}}\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/toggleIsActive",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"toggleIsActive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Received Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success should be false\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(false);\r",
+									"});\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"message\":{\"type\":\"string\"}  \r",
+									"    },\r",
+									"    \"required\":[\"success\",\"message\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Id\": \"64f49cc846f5d700012fe947\",\r\n  \"Status\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{listings_and_request_url}}/listing/listing/updateReceivedRequest",
+							"host": [
+								"{{listings_and_request_url}}"
+							],
+							"path": [
+								"listing",
+								"listing",
+								"updateReceivedRequest"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get Notification Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Success message should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"noOfNotification\":{\"type\":\"number\"},\r",
+									"     \"noOfMessages\":{\"type\":\"number\"}\r",
+									"    },\r",
+									"    \"required\":[\"success\",\"noOfNotification\",\"noOfMessages\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{profile_base_url}}/notification/notification/getNewNotificationCount",
+							"host": [
+								"{{profile_base_url}}"
+							],
+							"path": [
+								"notification",
+								"notification",
+								"getNewNotificationCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Success message should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"success\",\r",
+									"        \"userNotifications\",\r",
+									"        \"totalCount\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"success\": {\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"userNotifications\": {\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"required\": [\r",
+									"                    \"id\",\r",
+									"                    \"name\",\r",
+									"                    \"url\",\r",
+									"                    \"message\",\r",
+									"                    \"isViewed\",\r",
+									"                    \"updatedOn\",\r",
+									"                    \"notificationType\",\r",
+									"                    \"icon\"\r",
+									"                ],\r",
+									"                \"properties\": {\r",
+									"                    \"id\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"name\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"url\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"message\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"isViewed\": {\r",
+									"                        \"type\": \"boolean\"\r",
+									"                    },\r",
+									"                    \"updatedOn\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    },\r",
+									"                    \"notificationType\": {\r",
+									"                        \"type\": \"integer\"\r",
+									"                    },\r",
+									"                    \"icon\": {\r",
+									"                        \"type\": \"string\"\r",
+									"                    }\r",
+									"                }\r",
+									"            }\r",
+									"        },\r",
+									"        \"totalCount\": {\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{profile_base_url}}/notification/notification/getNotification",
+							"host": [
+								"{{profile_base_url}}"
+							],
+							"path": [
+								"notification",
+								"notification",
+								"getNotification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read all notifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Success message should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"    },\r",
+									"    \"required\":[\"success\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{profile_base_url}}/notification/notification/readAllNotifications",
+							"host": [
+								"{{profile_base_url}}"
+							],
+							"path": [
+								"notification",
+								"notification",
+								"readAllNotifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Load more notifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Success message should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"userNotifications\":{\"type\":\"array\"},\r",
+									"     \"totalCount\":{\"type\":\"number\"}\r",
+									"    },\r",
+									"    \"required\":[\"success\",\"userNotifications\",\"totalCount\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{profile_base_url}}/notification/notification/getNotification/?loadMore=6&offSet=0&_=1693267954213",
+							"host": [
+								"{{profile_base_url}}"
+							],
+							"path": [
+								"notification",
+								"notification",
+								"getNotification",
+								""
+							],
+							"query": [
+								{
+									"key": "loadMore",
+									"value": "6"
+								},
+								{
+									"key": "offSet",
+									"value": "0"
+								},
+								{
+									"key": "_",
+									"value": "1693267954213"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read and Marked Notification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Success should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"}  \r",
+									"    },\r",
+									"    \"required\":[\"success\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{profile_base_url}}/notification/notification/readMarkedNotifications",
+							"host": [
+								"{{profile_base_url}}"
+							],
+							"path": [
+								"notification",
+								"notification",
+								"readMarkedNotifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Marked Notifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"message\":{\"type\":\"string\"}\r",
+									"    },\r",
+									"    \"required\":[\"success\",\"message\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"64ed3cd4e8ab8600015a4105\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{profile_base_url}}/notification/notification/removeMarkedNotifications",
+							"host": [
+								"{{profile_base_url}}"
+							],
+							"path": [
+								"notification",
+								"notification",
+								"removeMarkedNotifications"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Get the chat room",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"chatroom\":{\"type\":\"string\"},\r",
+									"     \"myCurrentUser\":{\"type\":\"string\"}\r",
+									"    },\r",
+									"    \"required\":[\"success\",\"chatroom\",\"myCurrentUser\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"success\": true,\r\n  \"chatroom\": \"5c621663bea4490005ebe9d2\",\r\n  \"myCurrentUser\": \"647534923a2ba900019a4570\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{profile_base_url}}/profile/profile/getFirstChatroom",
+							"host": [
+								"{{profile_base_url}}"
+							],
+							"path": [
+								"profile",
+								"profile",
+								"getFirstChatroom"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chat room Details List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The success message should be true\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\":{\r",
+									"     \"success\":{\"type\":\"boolean\"},\r",
+									"     \"result\":{\"type\":\"array\"},\r",
+									"    },\r",
+									"    \"required\":[\"success\",\"result\"]\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validate response schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{env_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"UserIdToList\": [\r\n        \"5c621663bea4490005ebe9d2\",\r\n        \"64e82952b5b72800011eb5dd\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{profile_base_url}}/profile/profile/getChatRoomDetailsList",
+							"host": [
+								"{{profile_base_url}}"
+							],
+							"path": [
+								"profile",
+								"profile",
+								"getChatRoomDetailsList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

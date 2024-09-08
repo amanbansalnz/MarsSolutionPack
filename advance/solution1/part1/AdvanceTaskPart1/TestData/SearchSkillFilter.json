@@ -1,0 +1,18 @@
+[
+  {
+    "SkillCategory": "Business",
+    "filterOption": "On-Site"
+  },
+  {
+    "SkillCategory": "Graphics & Design",
+    "filterOption": "Online"
+  },
+  {
+    "SkillCategory": "Logo Design",
+    "filterOption": "Online"
+  },
+  {
+    "SkillCategory": "ABCD",
+    "filterOption": "On-Site"
+  }
+]

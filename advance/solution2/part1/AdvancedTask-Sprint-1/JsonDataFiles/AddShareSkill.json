@@ -1,0 +1,28 @@
+[
+  {
+    "title": "Salesforce",
+    "description": "Salesforce is a cloudbased customer relationship management CRM platform",
+    "category": "Programming & Tech",
+    "subcategory": "QA",
+    "tagone": "#CRM",
+    "tagtwo": "#Cloud",
+    "startDate": "20/11/2023",
+    "endDate": "30/12/2023",
+    "startTime": "09.30 am",
+    "endTime": "05.40 pm",
+    "charge": "9"
+  },
+  {
+    "title": "Painting",
+    "description": "A painting description typically provides information about a work of art including details and the artist who created it",
+    "category": "Fun & Lifestyle",
+    "subcategory": "Online Lessons",
+    "tagone": "#colors",
+    "tagtwo": "#paint",
+    "startDate": "20/12/2023",
+    "endDate": "30/03/2024",
+    "startTime": "10.30 am",
+    "endTime": "11.45 am",
+    "charge": "8"
+  }
+]

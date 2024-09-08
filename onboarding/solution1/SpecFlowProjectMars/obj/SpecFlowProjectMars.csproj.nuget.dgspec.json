@@ -1,0 +1,103 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/aman.bansal/Documents/mvp-documents/modelanswer/onboarding/MarsInternship2024/SpecFlowProjectMars/SpecFlowProjectMars.csproj": {}
+  },
+  "projects": {
+    "/Users/aman.bansal/Documents/mvp-documents/modelanswer/onboarding/MarsInternship2024/SpecFlowProjectMars/SpecFlowProjectMars.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/aman.bansal/Documents/mvp-documents/modelanswer/onboarding/MarsInternship2024/SpecFlowProjectMars/SpecFlowProjectMars.csproj",
+        "projectName": "SpecFlowProjectMars",
+        "projectPath": "/Users/aman.bansal/Documents/mvp-documents/modelanswer/onboarding/MarsInternship2024/SpecFlowProjectMars/SpecFlowProjectMars.csproj",
+        "packagesPath": "/Users/aman.bansal/.nuget/packages/",
+        "outputPath": "/Users/aman.bansal/Documents/mvp-documents/modelanswer/onboarding/MarsInternship2024/SpecFlowProjectMars/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/aman.bansal/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[6.2.0, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.0.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[4.21.0, )"
+            },
+            "Selenium.WebDriver.ChromeDriver": {
+              "target": "Package",
+              "version": "[125.0.6422.7600, )"
+            },
+            "SeleniumExtras.WaitHelpers": {
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "SpecFlow.NUnit": {
+              "target": "Package",
+              "version": "[3.9.40, )"
+            },
+            "SpecFlow.Plus.LivingDocPlugin": {
+              "target": "Package",
+              "version": "[3.9.57, )"
+            },
+            "nunit": {
+              "target": "Package",
+              "version": "[3.13.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.307/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "skill": "Testing",
+    "skillLevel": "Intermediate"
+  },
+
+  {
+    "skill": "Saleforce",
+    "skillLevel": "Expert"
+  },
+  {
+    "skill": "Art",
+    "skillLevel": "Beginner"
+  }
+]

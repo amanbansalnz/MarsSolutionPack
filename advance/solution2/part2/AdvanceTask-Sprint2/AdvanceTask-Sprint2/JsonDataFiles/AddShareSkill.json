@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Salesforce",
+    "description": "Salesforce is a cloudbased customer relationship management CRM platform",
+    "category": "Programming & Tech",
+    "subcategory": "QA",
+    "tagone": "#CRM",
+    "tagtwo": "#Cloud",
+    "startDate": "20/12/2023",
+    "endDate": "30/12/2023",
+    "startTime": "09.30 am",
+    "endTime": "05.40 pm",
+    "charge": "9"
+  }
+]

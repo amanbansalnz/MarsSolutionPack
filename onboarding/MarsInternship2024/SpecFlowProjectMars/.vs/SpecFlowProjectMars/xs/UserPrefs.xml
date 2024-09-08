@@ -1,0 +1,41 @@
+﻿<Properties StartupConfiguration="{91310FDE-42F0-41EB-AA0E-C05627036FAD}|Default">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="StepDefinitions/SkillsTabStepDefinitions.cs">
+    <Files>
+      <File FileName="StepDefinitions/LanguageTabStepDefinitions.cs" Line="1" Column="1" />
+      <File FileName="Features/LanguageTests.feature.cs" Line="5" Column="11" />
+      <File FileName="Features/SkillTests.feature.cs" Line="1" Column="1" />
+      <File FileName="StepDefinitions/SkillsTabStepDefinitions.cs" Line="1" Column="1" />
+      <File FileName="Utilities/CommonDriver.cs" Line="1" Column="1" />
+      <File FileName="Utilities/Hooks.cs" Line="1" Column="1" />
+      <File FileName="ImplicitUsings.cs" Line="1" Column="1" />
+      <File FileName="Utilities/WaitUtils.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="SpecFlowProjectMars">
+            <Node name="SpecFlowProjectMars">
+              <Node name="Pages" expanded="True" />
+              <Node name="StepDefinitions" expanded="True">
+                <Node name="SkillsTabStepDefinitions.cs" selected="True" />
+              </Node>
+              <Node name="Utilities" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="SpecFlowProjectMars" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.SpecFlowProjectMars PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

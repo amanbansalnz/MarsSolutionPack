@@ -1,0 +1,15 @@
+﻿[
+  {
+    "title": "Testing field",
+    "description": "Manual and Automation",
+    "category": "Business",
+    "subcategory": "Business Tips",
+    "tags": "BSc,MSc",
+    "startDate": "11/11/2024",
+    "endDate": "12/12/2024",
+    "startTime": "10:30Am",
+    "endTime": "12:30Pm",
+    "skillExchange": "API Testing,Soap"
+  }
+
+]

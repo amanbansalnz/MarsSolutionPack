@@ -1,0 +1,5871 @@
+{
+	"info": {
+		"_postman_id": "88a38e39-2806-4787-86c5-5fa1053fadaa",
+		"name": "Mars API Execute",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27826936"
+	},
+	"item": [
+		{
+			"name": "Users API execute",
+			"item": [
+				{
+					"name": "SignUp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion -validate Json response while registering email address\r",
+									"pm.test(\"Successfully Registered New User\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"     pm.expect(response.isSuccess).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Registration Unsuccessful\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"     pm.expect(response.isSuccess).to.be.false;\r",
+									"     pm.expect(response.message).to.equal(\"Register error - Email address has been used in registration.\");\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate Null Parameters\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"     pm.expect(response.isSuccess).to.be.false;\r",
+									"     pm.expect(response.message).to.equal(\"Parameter can not be null\");\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Muru01\",\r\n  \"lastName\": \"test\",\r\n  \"email\": \"ammu.mvpstudio84@gmail.com\",\r\n  \"password\": \"mvp844\",\r\n  \"terms\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{signupURL}}/signup",
+							"host": [
+								"{{signupURL}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive SignUp",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Muru01\",\r\n  \"lastName\": \"test\",\r\n  \"email\": \"ammu.mvp3@gmail.com\",\r\n  \"password\": \"testing2\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60968/authentication/authentication/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60968",
+									"path": [
+										"authentication",
+										"authentication",
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Signup Invalid email address",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Muru01\",\r\n  \"lastName\": \"test\",\r\n  \"email\": \"ammu.mvp3@gmail.com\",\r\n  \"password\": \"testing2\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60968/authentication/authentication/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60968",
+									"path": [
+										"authentication",
+										"authentication",
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Signup Null parameters",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Muru01\",\r\n  \"lastName\": \"test\",\r\n  \"email\": \"ammu.mvp3@gmail.com\",\r\n  \"password\": \"testing2\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60968/authentication/authentication/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60968",
+									"path": [
+										"authentication",
+										"authentication",
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Signup with special characters",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"#$%^5.<\",\r\n  \"lastName\": \"#@$$^^!@\",\r\n  \"email\": \"&#@$.&!@#$@gmail.com\",\r\n  \"password\": \"testing2\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/signup",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "SignIn",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion1 - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Assertion2 - Validate User Authentication\r",
+									"pm.test(\"Validate User Authentication\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property(\"isSuccess\").and.be.a(\"boolean\");\r",
+									"    \r",
+									"    if (response.isSuccess) {\r",
+									"        pm.expect(response.token).to.be.an(\"object\").and.to.have.property(\"token\");\r",
+									"        pm.environment.set(\"authToken\", response.token.token);\r",
+									"    } else {\r",
+									"        pm.expect(response).to.have.property(\"errorMessage\").and.be.a(\"string\");\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"rememberMe\": false,\r\n  \"email\": \"ammu.mvpstudio84@gmail.com\",\r\n  \"password\": \"mvp844\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{signupURL}}/signin",
+							"host": [
+								"{{signupURL}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "SignIn Successfull",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"rememberMe\": false,\r\n  \"email\": \"ammu.mvp5@gmail.com\",\r\n  \"password\": \"testing2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60968/authentication/authentication/signin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60968",
+									"path": [
+										"authentication",
+										"authentication",
+										"signin"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "SignIn Unsuccessfull",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"rememberMe\": false,\r\n  \"email\": \"ammu.mvp3@gmail.com\",\r\n  \"password\": \"testing2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60968/authentication/authentication/signin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60968",
+									"path": [
+										"authentication",
+										"authentication",
+										"signin"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Change Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion1 - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-2 check change password successfull\r",
+									"pm.test(\"Validate Updated Password Successfully\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"     pm.expect(response.success).to.be.true;\r",
+									"     pm.expect(response.message).to.equal(\"Password Changed Successfully\");\r",
+									"});\r",
+									"\r",
+									"//Assertion-3 check change password unsuccessfull\r",
+									"pm.test(\"Password updated unsuccessful\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"     pm.expect(response.success).to.be.false;\r",
+									"     pm.expect(response.message).to.equal(\"Password Verification Failed\");\r",
+									"});\r",
+									"\r",
+									"//Assertion-4 check change password with null values\r",
+									"pm.test(\"Negative change Password With Null Values\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"     pm.expect(response.success).to.be.false;\r",
+									"     pm.expect(response.message).to.equal(\"Error while Updating Password details\");\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"newPassword\": \"mvp855\",\r\n  \"oldPassword\": \"mvp844\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{signupURL}}/updatePassword",
+							"host": [
+								"{{signupURL}}"
+							],
+							"path": [
+								"updatePassword"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive- Password changed successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"newPassword\": \"testing3\",\r\n  \"oldPassword\": \"testing2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60968/authentication/authentication/updatePassword",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60968",
+									"path": [
+										"authentication",
+										"authentication",
+										"updatePassword"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Invalid old password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"newPassword\": \"testing3\",\r\n  \"oldPassword\": \"abcdfg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60968/authentication/authentication/updatePassword",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60968",
+									"path": [
+										"authentication",
+										"authentication",
+										"updatePassword"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Null values",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"newPassword\": \"\",\r\n  \"oldPassword\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60968/authentication/authentication/updatePassword",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60968",
+									"path": [
+										"authentication",
+										"authentication",
+										"updatePassword"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Old and new password are same",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"newPassword\": \"testing2\",\r\n  \"oldPassword\": \"testing2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60968/authentication/authentication/updatePassword",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60968",
+									"path": [
+										"authentication",
+										"authentication",
+										"updatePassword"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Language API execute",
+			"item": [
+				{
+					"name": "Add Language",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Assertion - Validate adding language response\r",
+									"var statusCode = pm.response.code;\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var success = response.success;\r",
+									"    var message = response.message;\r",
+									"    \r",
+									"    if (success) {\r",
+									"        // Positive case: language added successfully\r",
+									"        pm.test(\"Language added successfully\", function () {\r",
+									"            pm.expect(success).to.be.true;\r",
+									"            pm.environment.set(\"language_id\", response.id);\r",
+									"        });\r",
+									"    } else if (message === \"This language is already exist in your language list.\") {\r",
+									"        // Negative case: language already exists\r",
+									"        pm.test(\"Duplicate language\", function () {\r",
+									"            pm.expect(success).to.be.false;\r",
+									"            pm.expect(message).to.equal(\"This language is already exist in your language list.\");\r",
+									"        });\r",
+									"    }\r",
+									"} else if (statusCode === 401) {\r",
+									"    // Unauthorized: unable to add language without authentication\r",
+									"    pm.test(\"Unable to add language without authentication\", function () {\r",
+									"        pm.expect(pm.response.body).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"French\",\r\n  \"level\": \"Basic\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/addLanguage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"addLanguage"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Add Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"French\",\r\n  \"level\": \"Basic\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Duplicate Add Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"French\",\r\n  \"level\": \"Basic\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Invalid Inputs",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"French\",\r\n  \"level\": \"Basic\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Null inputs",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"French\",\r\n  \"level\": \"Basic\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Language",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Assertion - Validate successful retrieval of language list\r",
+									"var statusCode = pm.response.code;\r",
+									"if (statusCode === 200) {\r",
+									"    pm.test(\"Retrieve list of languages successfully\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.expect(response).to.be.an('array');\r",
+									"    });\r",
+									"} else if (statusCode === 401) {\r",
+									"    // Unauthorized: unable to retrieve language list without authentication\r",
+									"    pm.test(\"Unable to retrieve languages without authentication\", function () {\r",
+									"        pm.expect(pm.response.body).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getLanguage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getLanguage"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Languages successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/getLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"getLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Language",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Validate response for successful language update\r",
+									"var statusCode = pm.response.code;\r",
+									"if (statusCode === 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var message = response.message;\r",
+									"\r",
+									"    if (message === \"Language added successfully\") {\r",
+									"        pm.test(\"Validate Language Update Success\", function () {\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.message).to.equal(\"Language added successfully\");\r",
+									"        });\r",
+									"    } else if (message === \"This language is already added to your language list.\") {\r",
+									"        pm.test(\"Validate Duplicate Language\", function () {\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.equal(\"This language is already added to your language list.\");\r",
+									"        });\r",
+									"    } else if (message === \"Error while adding new language\") {\r",
+									"        pm.test(\"Unable to Update Language without ID\", function () {\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.equal(\"Error while adding new language\");\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"// Unable to update language without authentication\r",
+									"if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Update Language without User Authentication\", function () {\r",
+									"        pm.expect(pm.response.body).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"French\",\r\n  \"level\": \"Fluent\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/updateLanguage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"updateLanguage"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Update Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"French\",\r\n  \"level\": \"Fluent\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Positive-Update with null values",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"French\",\r\n  \"level\": \"Fluent\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Update Duplicate values",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"French\",\r\n  \"level\": \"Fluent\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Language",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"// Assertion - Validate language deletion success\r",
+									"if (statusCode === 200) {\r",
+									"    pm.test(\"Language deleted successfully\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.expect(response.success).to.be.true;\r",
+									"        pm.expect(response.language).to.exist;\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Assertion - Unable to delete language without authentication\r",
+									"if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Delete Language without User being Authenticated\", function () {\r",
+									"        pm.expect(pm.response.body).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Assertion - Negative cases for invalid and empty ID\r",
+									"if (statusCode === 500) {\r",
+									"    pm.test(\"Negative - Delete Language Invalid Id\", function () {\r",
+									"        pm.response.to.have.status(500);\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"Negative - Delete Language Empty Id Field\", function () {\r",
+									"        pm.response.to.have.status(500);\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"English\",\r\n  \"level\": \"Fluent\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/deleteLanguage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"deleteLanguage"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Delete Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"English\",\r\n  \"level\": \"Fluent\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/deleteLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"deleteLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Invalid ID Delete Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"English\",\r\n  \"level\": \"Fluent\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/deleteLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"deleteLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Empty ID Delete Language",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{language_id}}\",\r\n  \"name\": \"English\",\r\n  \"level\": \"Fluent\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/deleteLanguage",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"deleteLanguage"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Skill API execute",
+			"item": [
+				{
+					"name": "Add Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion- Validate added skill successfully\r",
+									"var statusCode = pm.response.code;\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var message = response.message;\r",
+									"\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Positive Add Skill\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.environment.set(\"skill_id\", response.id);\r",
+									"            \r",
+									"        });\r",
+									"    } else {\r",
+									"        if (response.message == \"This skill is already exist in your skill list.\") {\r",
+									"            pm.test(\"Negative Duplicate Skill\", function () {\r",
+									"                var response = pm.response.json();\r",
+									"                pm.expect(response.success).to.be.false;\r",
+									"                pm.expect(response.message).to.equal(\"This skill is already exist in your skill list.\");\r",
+									"            });\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"    var response = pm.response.body\r",
+									"    pm.test(\"Unable to Update Skill without User being Authenticated\", function () {\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Intermediate\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/addSkill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"addSkill"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Add Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Intermediate\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative -Duplicate Add Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Expert\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Invalid inputs Add Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Expert\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Null inputs Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Expert\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"// Assertion - Validate successful retrieval of skills list\r",
+									"if (statusCode === 200) {\r",
+									"    pm.test(\"Get The List of Skills successfully\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.expect(response).to.be.an('array');\r",
+									"    });\r",
+									"} \r",
+									"// Assertion - Unable to retrieve skills list without authentication\r",
+									"else if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to return Skills because user is not Authenticated\", function () {\r",
+									"        pm.expect(pm.response.body).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getSkill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getSkill"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Skill Successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/getSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"getSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var statusCode = pm.response.code;\r",
+									"var response = pm.response.json();\r",
+									"\r",
+									"// Assertion - Validate skill update success or failure\r",
+									"if (statusCode === 200) {\r",
+									"    var message = response.message;\r",
+									"\r",
+									"    // Assertion - Successful skill update\r",
+									"    if (response.success === true) {\r",
+									"        pm.test(\"Validate Updated Skill Successfully\", function () {\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            var skillId = pm.environment.get(\"skill_id\"); // Retrieve skill_id from environment\r",
+									"               pm.expect(skillId).to.exist; \r",
+									"           \r",
+									"        });\r",
+									"    } \r",
+									"    // Assertion - Duplicate skill\r",
+									"    else if (message === \"This skill is already added to your skill list.\") {\r",
+									"        pm.test(\"Validate Duplicate Skill\", function () {\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.equal(\"This skill is already added to your skill list.\");\r",
+									"        });\r",
+									"    } \r",
+									"    // Assertion - Error while adding new skill\r",
+									"    else if (message === \"Error while adding new language '' is not a valid 24 digit hex string.\") {\r",
+									"        pm.test(\"Unable to Update Skill without ID\", function () {\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.equal(\"Error while adding new language '' is not a valid 24 digit hex string.\");\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"// Assertion - Unable to update skill without authentication\r",
+									"if (statusCode === 401) {\r",
+									"    pm.test(\"Unable to Update Skill without User being Authenticated\", function () {\r",
+									"        pm.expect(pm.response.body).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"PersonSkillId\": \"{{skill_id}}\",\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/updateSkill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"updateSkill"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Update Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skill_id}}\",\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Positive-Update Skill  with null values",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skill_id}}\",\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Update Duplicate Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skill_id}}\",\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Invalid Skill ID",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skill_id}}\",\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var message = response.message;\r",
+									"\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Positive Delete Skill\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.skill).to.not.be.empty;\r",
+									"        });\r",
+									"    } else {\r",
+									"        if (response.message == \"Error while deleting skill Object reference not set to an instance of an object.\") {\r",
+									"            pm.test(\"Negative Delete Skill\", function () {\r",
+									"                var response = pm.response.json();\r",
+									"                pm.expect(response.success).to.be.false;\r",
+									"                pm.expect(response.message).to.equal(\"Error while deleting skill Object reference not set to an instance of an object.\");\r",
+									"            });\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"    var response = pm.response.body\r",
+									"    pm.test(\"Unable to Delete Skill without User being Authenticated\", function () {\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"PersonSkillId\": \"{{skill_id}}\",\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/deleteSkill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"deleteSkill"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Delete Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skill_id}}\",\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/deleteSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"deleteSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Invalid ID Delete Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skill_id}}\",\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/deleteSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"deleteSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Empty ID Delete Skill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PersonSkillId\": \"{{skill_id}}\",\r\n  \"Skill\": \"Salesforce\",\r\n  \"ExperienceLevel\": \"Beginner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/deleteSkill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"deleteSkill"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Certification API execute",
+			"item": [
+				{
+					"name": "Add Certification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var message = response.message;\r",
+									"\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Validate - Positive Added Certification successfully\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"             pm.environment.set(\"certification_id\", response.id);\r",
+									"            \r",
+									"        });\r",
+									"    } else {\r",
+									"        if (message == \"This information is already exist.\") {\r",
+									"            pm.test(\"Negative Duplicate Certification\", function () {\r",
+									"                var response = pm.response.json();\r",
+									"                pm.expect(response.success).to.be.false;\r",
+									"                pm.expect(response.message).to.equal(\"This information is already exist.\");\r",
+									"            });\r",
+									"        }\r",
+									"        if (message == \"Error while adding new certification\") {\r",
+									"            pm.test(\"Negative Empty Certification\", function () {\r",
+									"                var response = pm.response.json();\r",
+									"                pm.expect(response.success).to.be.false;\r",
+									"                pm.expect(response.message).to.equal(\"Error while adding new certification\");\r",
+									"            });\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"    var response = pm.response.body\r",
+									"    pm.test(\"Unable to Add Certification without User being Authenticated\", function () {\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP\",\r\n  \"certificationYear\": \"2023\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/addCertification",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"addCertification"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Add Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP\",\r\n  \"certificationYear\": \"2023\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Duplicate Add Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP\",\r\n  \"certificationYear\": \"2023\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Invalid Add Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP\",\r\n  \"certificationYear\": \"2023\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Null inputs",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP\",\r\n  \"certificationYear\": \"2023\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Certification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    pm.test(\"Successfully Get The List of Certifications\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.response.to.have.status(200);\r",
+									"        pm.expect(response).to.be.an('array');\r",
+									"    });\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to return Certifications because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getCertification",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getCertification"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Certifications list successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/getCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"getCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Certification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var message = response.message;\r",
+									"\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Validate- Updated Certification Successfully\", function () {\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"    var response = pm.response.body\r",
+									"    pm.test(\"Unable to Update Certification without User being Authenticated\", function () {\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{certification_id}}\",\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP\",\r\n  \"certificationYear\": \"2022\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/updateCertification",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"updateCertification"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Update Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{certification_id}}\",\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP\",\r\n  \"certificationYear\": \"2022\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Update Duplicate values Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{certification_id}}\",\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP\",\r\n  \"certificationYear\": \"2022\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Update with null values",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{certification_id}}\",\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP\",\r\n  \"certificationYear\": \"2022\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Update without ID Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{certification_id}}\",\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP\",\r\n  \"certificationYear\": \"2022\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Certification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion- Validate certification deleted successfully\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    var message = response.message;\r",
+									"\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Validate- Positive Delete Certification successfully\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.certificationName).to.not.be.empty;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"    var response = pm.response.body\r",
+									"    pm.test(\"Unable to Delete Certification without User being Authenticated\", function () {\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									"if (statusCode == 500) {\r",
+									"    var response = pm.response.body\r",
+									"    pm.test(\"Unable to Delete Certification due to error 500\", function () {\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{certification_id}}\",\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP Studio\",\r\n  \"certificationYear\": \"2022\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/deleteCertification",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"deleteCertification"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Delete Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{certification_id}}\",\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP Studio\",\r\n  \"certificationYear\": \"2022\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/deleteCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"deleteCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Invalid ID Delete Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{certification_id}}\",\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP Studio\",\r\n  \"certificationYear\": \"2022\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/deleteCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"deleteCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Empty ID Delete Certification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{certification_id}}\",\r\n  \"certificationName\": \"ISTQB\",\r\n  \"certificationFrom\": \"MVP Studio\",\r\n  \"certificationYear\": \"2022\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/deleteCertification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"deleteCertification"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Listing API execute",
+			"item": [
+				{
+					"name": "Add Listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Validate - Successfully Add Listing\", function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.environment.set(\"listing_id\", response.id);\r",
+									"            pm.expect(response.editFlag).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"else if (statusCode == 500 || statusCode == 401) {\r",
+									"    var errorMessage = {\r",
+									"        500: \"Internal Server Error\",\r",
+									"        401: \"User is not Authenticated\"\r",
+									"    };\r",
+									"    \r",
+									"    pm.test(`Unable to Add Listing because of ${errorMessage[statusCode]}`, function () {\r",
+									"        pm.expect(response).to.be.undefined;\r",
+									"    });\r",
+									"}\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Salesforce Administrator\",\r\n  \"description\": \"Software Testing is my passion.\",\r\n  \"categoryId\": \"6\",\r\n  \"subcategoryId\": \"2\",\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"istqb\",\r\n      \"text\": \"istqb\"\r\n    },\r\n    {\r\n      \"id\": \"selenium\",\r\n      \"text\": \"selenium\"\r\n    }\r\n  ],\r\n  \"serviceType\": 0,\r\n  \"locationType\": 1,\r\n  \"availability\": {\r\n    \"startDate\": \"2024-02-15\",\r\n    \"endDate\": \"2024-03-31\",\r\n    \"dayEntries\": [\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"10:50\",\r\n        \"EndTime\": \"17:37\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      }\r\n    ]\r\n  },\r\n  \"skillTrade\": [\r\n    {\r\n      \"id\": \"agile\",\r\n      \"text\": \"agile\"\r\n    },\r\n    {\r\n      \"id\": \"aws\",\r\n      \"text\": \"aws\"\r\n    }\r\n  ],\r\n  \"isTradable\": true,\r\n  \"charge\": 0,\r\n  \"credentials\": true,\r\n  \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/addListing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"addListing"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Add Listing",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Salesforce Administrator\",\r\n  \"description\": \"Software Testing is my passion.\",\r\n  \"categoryId\": \"6\",\r\n  \"subcategoryId\": \"2\",\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"istqb\",\r\n      \"text\": \"istqb\"\r\n    },\r\n    {\r\n      \"id\": \"selenium\",\r\n      \"text\": \"selenium\"\r\n    }\r\n  ],\r\n  \"serviceType\": 0,\r\n  \"locationType\": 1,\r\n  \"availability\": {\r\n    \"startDate\": \"2024-02-15\",\r\n    \"endDate\": \"2024-03-31\",\r\n    \"dayEntries\": [\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"10:50\",\r\n        \"EndTime\": \"17:37\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      }\r\n    ]\r\n  },\r\n  \"skillTrade\": [\r\n    {\r\n      \"id\": \"agile\",\r\n      \"text\": \"agile\"\r\n    },\r\n    {\r\n      \"id\": \"aws\",\r\n      \"text\": \"aws\"\r\n    }\r\n  ],\r\n  \"isTradable\": true,\r\n  \"charge\": 0,\r\n  \"credentials\": true,\r\n  \"isActive\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/addListing",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"addListing"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Positive- Duplicate Add Listing",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Salesforce Administrator\",\r\n  \"description\": \"Software Testing is my passion.\",\r\n  \"categoryId\": \"6\",\r\n  \"subcategoryId\": \"2\",\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"istqb\",\r\n      \"text\": \"istqb\"\r\n    },\r\n    {\r\n      \"id\": \"selenium\",\r\n      \"text\": \"selenium\"\r\n    }\r\n  ],\r\n  \"serviceType\": 0,\r\n  \"locationType\": 1,\r\n  \"availability\": {\r\n    \"startDate\": \"2024-02-15\",\r\n    \"endDate\": \"2024-03-31\",\r\n    \"dayEntries\": [\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"10:50\",\r\n        \"EndTime\": \"17:37\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      }\r\n    ]\r\n  },\r\n  \"skillTrade\": [\r\n    {\r\n      \"id\": \"agile\",\r\n      \"text\": \"agile\"\r\n    },\r\n    {\r\n      \"id\": \"aws\",\r\n      \"text\": \"aws\"\r\n    }\r\n  ],\r\n  \"isTradable\": true,\r\n  \"charge\": 0,\r\n  \"credentials\": true,\r\n  \"isActive\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/addListing",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"addListing"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Invalid inputs Add Listing",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Salesforce Administrator\",\r\n  \"description\": \"Software Testing is my passion.\",\r\n  \"categoryId\": \"6\",\r\n  \"subcategoryId\": \"2\",\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"istqb\",\r\n      \"text\": \"istqb\"\r\n    },\r\n    {\r\n      \"id\": \"selenium\",\r\n      \"text\": \"selenium\"\r\n    }\r\n  ],\r\n  \"serviceType\": 0,\r\n  \"locationType\": 1,\r\n  \"availability\": {\r\n    \"startDate\": \"2024-02-15\",\r\n    \"endDate\": \"2024-03-31\",\r\n    \"dayEntries\": [\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"10:50\",\r\n        \"EndTime\": \"17:37\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      }\r\n    ]\r\n  },\r\n  \"skillTrade\": [\r\n    {\r\n      \"id\": \"agile\",\r\n      \"text\": \"agile\"\r\n    },\r\n    {\r\n      \"id\": \"aws\",\r\n      \"text\": \"aws\"\r\n    }\r\n  ],\r\n  \"isTradable\": true,\r\n  \"charge\": 0,\r\n  \"credentials\": true,\r\n  \"isActive\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/addListing",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"addListing"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Null inputs Add Listing",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Salesforce Administrator\",\r\n  \"description\": \"Software Testing is my passion.\",\r\n  \"categoryId\": \"6\",\r\n  \"subcategoryId\": \"2\",\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"istqb\",\r\n      \"text\": \"istqb\"\r\n    },\r\n    {\r\n      \"id\": \"selenium\",\r\n      \"text\": \"selenium\"\r\n    }\r\n  ],\r\n  \"serviceType\": 0,\r\n  \"locationType\": 1,\r\n  \"availability\": {\r\n    \"startDate\": \"2024-02-15\",\r\n    \"endDate\": \"2024-03-31\",\r\n    \"dayEntries\": [\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"10:50\",\r\n        \"EndTime\": \"17:37\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      },\r\n      {\r\n        \"StartTime\": \"\",\r\n        \"EndTime\": \"\",\r\n        \"Available\": false\r\n      }\r\n    ]\r\n  },\r\n  \"skillTrade\": [\r\n    {\r\n      \"id\": \"agile\",\r\n      \"text\": \"agile\"\r\n    },\r\n    {\r\n      \"id\": \"aws\",\r\n      \"text\": \"aws\"\r\n    }\r\n  ],\r\n  \"isTradable\": true,\r\n  \"charge\": 0,\r\n  \"credentials\": true,\r\n  \"isActive\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/addListing",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"addListing"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Multiple Service listings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while retrieving service listings.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Validate- Get Multiple Service Listing Successfully\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.data).to.be.an('array');\r",
+									"            pm.expect(response.count).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 500) {\r",
+									"     pm.test(\"Unable to Get Multiple Service Listings due to Internal Server Error\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Get Multiple Service Listings because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"limit\": 5,\r\n  \"offset\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/getMultipleServiceListing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"getMultipleServiceListing"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive -Get Multiple Service listings",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"limit\": 5,\r\n  \"offset\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/getMultipleServiceListing",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"getMultipleServiceListing"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative - Get Multiple Service listings",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"limit\": 5,\r\n  \"offset\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/getMultipleServiceListing",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"getMultipleServiceListing"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get listings by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while retrieving the listings by ID.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Validate - Get listings by ID Successfull\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.serviceListing).to.be.an('object');\r",
+									"            pm.expect(response.categoryTuple).to.be.an('object');\r",
+									"            pm.expect(response.currentUserId).to.be.exist;\r",
+									"        });\r",
+									"    } else {\r",
+									"        pm.test(\"Unable to Get Service\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Get Service listing because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/GetService/?id={{listing_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"GetService",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{listing_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Get listings by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/GetService/?id={{listing_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"GetService",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{listing_id}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Get listings by Invalid ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/GetService/?id={{listing_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"GetService",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{listing_id}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while getting the balance listings.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Successfully Get Balance\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.balance).to.exist;\r",
+									"        });\r",
+									"    } else {\r",
+									"        pm.test(\"Unable to Get Service\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Get Balance because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/getBalance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"getBalance"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Get Balance successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/getBalance",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"getBalance"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Enable/Disable Listings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while enabling and disabling  listings.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        if (response.active == true) {\r",
+									"            pm.test(\"Validate - Listing is active\", function () {\r",
+									"                pm.response.to.have.status(200);\r",
+									"                pm.expect(response.success).to.be.true;\r",
+									"                pm.expect(response.active).to.be.true;\r",
+									"            });\r",
+									"        } else {\r",
+									"            pm.test(\"Validate - Listing is Disabled\", function () {\r",
+									"                pm.response.to.have.status(200);\r",
+									"                pm.expect(response.success).to.be.true;\r",
+									"                pm.expect(response.active).to.be.false;\r",
+									"            });\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 500) {\r",
+									"     pm.test(\"Unable to Send Trade Request because of an Internal Server Error\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Send Trade Request because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{{listing_id}}\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/toggleIsActive",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"toggleIsActive"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Enable/Disable Listings successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\"{{listing_id}}\"",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/toggleIsActive",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"toggleIsActive"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Invalid ID Enable/Disable Listings",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\"{{listing_id}}\"",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/toggleIsActive",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"toggleIsActive"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while deleting listings.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Validate - Successfully Deleted Listing\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.title).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 500) {\r",
+									"     pm.test(\"Unable to Delete Listing because of an Internal Server Error\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Delete Listing because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{{listing_id}}\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/deleteServiceListing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"deleteServiceListing"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Delete Listing successfully valid ID",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\"{{listing_id}}\"",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/deleteServiceListing",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"deleteServiceListing"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Invalid ID Delete Listing",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\"{{listing_id}}\"",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/deleteServiceListing",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"deleteServiceListing"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Search Listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while searching listings.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"validate-Search Listings Successfull\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.data).to.be.an('array');\r",
+									"            pm.expect(response.totalCount).to.exist;\r",
+									"        });\r",
+									"    } else {\r",
+									"        pm.test(\"Unable to Search Listings\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 500) {\r",
+									"     pm.test(\"Unable to validate Search Listings because of an Internal Server Error\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to validate Search Listings because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"terms\": {\r\n    \"searchString\": \"marketing\",\r\n    \"categoryIndex\": null,\r\n    \"subcategoryIndex\": null,\r\n    \"uId\": null\r\n  },\r\n  \"sortPagination\": {\r\n    \"offset\": 0,\r\n    \"limit\": 9\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/searchListings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"searchListings"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Search Listing Successfull",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"terms\": {\r\n    \"searchString\": \"marketing\",\r\n    \"categoryIndex\": null,\r\n    \"subcategoryIndex\": null,\r\n    \"uId\": null\r\n  },\r\n  \"sortPagination\": {\r\n    \"offset\": 0,\r\n    \"limit\": 9\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/searchListings",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"searchListings"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Invalid Search Listing",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"terms\": {\r\n    \"searchString\": \"marketing\",\r\n    \"categoryIndex\": null,\r\n    \"subcategoryIndex\": null,\r\n    \"uId\": null\r\n  },\r\n  \"sortPagination\": {\r\n    \"offset\": 0,\r\n    \"limit\": 9\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/searchListings",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"searchListings"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Search Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while searching listings by username.\r",
+									"pm.test(\"Response has 'success' property set to true\", function () {\r",
+									"    pm.expect(pm.response.json().success).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'data' array\", function () {\r",
+									"    pm.expect(pm.response.json().data).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each object in 'data' array has expected properties\", function () {\r",
+									"    var data = pm.response.json().data;\r",
+									"    data.forEach(function (item) {\r",
+									"        pm.expect(item).to.have.property('id');\r",
+									"        pm.expect(item).to.have.property('firstName');\r",
+									"        pm.expect(item).to.have.property('lastName');\r",
+									"        pm.expect(item).to.have.property('middleName');\r",
+									"        pm.expect(item).to.have.property('profileLink');\r",
+									"        pm.expect(item).to.have.property('score');\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/searchUser?keyword=muru",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"searchUser"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "muru"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive- Search Username Sucessfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/searchUser?keyword=muru",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"searchUser"
+									],
+									"query": [
+										{
+											"key": "keyword",
+											"value": "muru"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Invalid Search Username",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/searchUser?keyword=muru",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"searchUser"
+									],
+									"query": [
+										{
+											"key": "keyword",
+											"value": "muru"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative - Null value Search Username",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/searchUser?keyword=muru",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"searchUser"
+									],
+									"query": [
+										{
+											"key": "keyword",
+											"value": "muru"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get listings category count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while retrieving the count of the  listings by category.\r",
+									"pm.test(\"Response has 'success' property set to true\", function () {\r",
+									"    pm.expect(pm.response.json().success).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'data' array\", function () {\r",
+									"    pm.expect(pm.response.json().data).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each object in 'data' array has expected properties\", function () {\r",
+									"    var data = pm.response.json().data;\r",
+									"    data.forEach(function (item) {\r",
+									"        pm.expect(item).to.have.property('categoryId');\r",
+									"        pm.expect(item.categoryId).to.be.a('number');\r",
+									"\r",
+									"        pm.expect(item).to.have.property('subcategoryId');\r",
+									"        pm.expect(item.subcategoryId).to.be.a('number');\r",
+									"\r",
+									"        pm.expect(item).to.have.property('count');\r",
+									"        pm.expect(item.count).to.be.a('number');\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"terms\": {\r\n    \"searchString\": \"\",\r\n    \"categoryIndex\": null,\r\n    \"subcategoryIndex\": null,\r\n    \"uId\": null\r\n  },\r\n  \"sortPagination\": {\r\n    \"offset\": 0,\r\n    \"limit\": 9\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/GetServiceCategoryCount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"GetServiceCategoryCount"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Get listings category count",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"terms\": {\r\n    \"searchString\": \"\",\r\n    \"categoryIndex\": null,\r\n    \"subcategoryIndex\": null,\r\n    \"uId\": null\r\n  },\r\n  \"sortPagination\": {\r\n    \"offset\": 0,\r\n    \"limit\": 9\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/GetServiceCategoryCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"GetServiceCategoryCount"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative -Get listings category count",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"terms\": {\r\n    \"searchString\": \"\",\r\n    \"categoryIndex\": null,\r\n    \"subcategoryIndex\": null,\r\n    \"uId\": null\r\n  },\r\n  \"sortPagination\": {\r\n    \"offset\": 0,\r\n    \"limit\": 9\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/GetServiceCategoryCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"GetServiceCategoryCount"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while getting all category listings.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Successfully Get Categories\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.categories).to.be.an('array');\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Get Categories because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51689/listing/listing/getCategories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51689",
+							"path": [
+								"listing",
+								"listing",
+								"getCategories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive - Get all Categories successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51689/listing/listing/getCategories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51689",
+									"path": [
+										"listing",
+										"listing",
+										"getCategories"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Profile API execute",
+			"item": [
+				{
+					"name": "Add Profile Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while adding Description information.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    pm.test(\"Successfully Update Profile Description\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.response.to.have.status(200);\r",
+									"        pm.expect(response.message).to.equal(\"Description Added Successfully\");\r",
+									"        pm.expect(response.success).to.be.true;\r",
+									"    });\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Add Info because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"personId\": 0,\r\n  \"description\": \"Automation test analyst. \"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/addInfo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"addInfo"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Add Info",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"personId\": 0,\r\n  \"description\": \"Automation test analyst. \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addInfo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addInfo"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Null value Profile Info",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"personId\": 0,\r\n  \"description\": \"Automation test analyst. \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/addInfo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"addInfo"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while retrieving profile information.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    pm.test(\"Successfully Get Profile Information\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.response.to.have.status(200);\r",
+									"        pm.expect(response.username).to.not.be.empty;\r",
+									"        pm.expect(response.isDeactivated).to.exist;\r",
+									"    });\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to get User Profile because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getProfile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getProfile"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Get Profile details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/getProfile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"getProfile"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get profile photo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while retrieving profile photo.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    pm.test(\"Successfully Get Profile Photo\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.response.to.have.status(200);\r",
+									"        pm.expect(response.myPhotoUrl).to.not.be.empty;\r",
+									"        pm.expect(response.otherPhotoUrl).to.not.be.empty;\r",
+									"        pm.expect(response.success).to.be.true;\r",
+									"    });\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Get Profile Photo because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getProfilePhoto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getProfilePhoto"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Get profile photo successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/getProfilePhoto",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"getProfilePhoto"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Profile Details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while retrieving profile details.\r",
+									"pm.test(\"Response is successful\", function () {\r",
+									"    pm.response.to.be.success;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"First name is Muru01\", function () {\r",
+									"    pm.expect(pm.response.json().firstName).to.equal(\"Muru01\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Last name is test\", function () {\r",
+									"    pm.expect(pm.response.json().lastName).to.equal(\"test\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getProfileDetails/?id=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getProfileDetails",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive - Get Profile Details successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/getProfileDetails/?id=65d0a1909aa1f800012f45bc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"getProfileDetails",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "65d0a1909aa1f800012f45bc"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative- Get Profile Details Unsucceful",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/getProfileDetails/?id=",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"getProfileDetails",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Is User Authenticated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while checking user authentication.\r",
+									"if (statusCode == 200) {\r",
+									"    pm.test(\"Successfully Get The List of Educations\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.response.to.have.status(200);\r",
+									"        pm.expect(response.isAuthenticated).to.be.true;\r",
+									"        pm.expect(response).to.have.keys('isAuthenticated', 'username');\r",
+									"    });\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"401 when User is not authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"isAuthenticated\": true,\r\n  \"username\": \"Muru01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/isUserAuthenticated",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"isUserAuthenticated"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Is User Authenticated",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"isAuthenticated\": true,\r\n  \"username\": \"Muru01\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/isUserAuthenticated",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"isUserAuthenticated"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Profile Availability",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while updating profile availability\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Successfully Updated Availability\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.message).to.equal(\"Availability Updated Successfully\");\r",
+									"        });\r",
+									"    } else {\r",
+									"        pm.test(\"Unable to Update Availability\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.equal(\"Error updating Availability\");\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Update Availability because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"AvailabilityType\": \"1\",\r\n  \"AvailableHours\": 2,\r\n  \"EarnTarget\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/updateAvailability",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"updateAvailability"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Update Profile Availability",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"AvailabilityType\": \"1\",\r\n  \"AvailableHours\": 2,\r\n  \"EarnTarget\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateAvailability",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateAvailability"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Update Profile Availability",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"AvailabilityType\": \"1\",\r\n  \"AvailableHours\": 2,\r\n  \"EarnTarget\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateAvailability",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateAvailability"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update First and Last Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while updating first and last name.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    pm.test(\"Successfully update First and Last Name\", function () {\r",
+									"        var response = pm.response.json();\r",
+									"        pm.response.to.have.status(200);\r",
+									"        pm.expect(response.success).to.be.true;\r",
+									"        pm.expect(response.message).to.equal(\"Firstname and Lastname Changed\");\r",
+									"    });\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to get User Profile because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Muru01\",\r\n  \"lastName\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/updateFirstAndLastName",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"updateFirstAndLastName"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Update First and Last Name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Muru01\",\r\n  \"lastName\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateFirstAndLastName",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateFirstAndLastName"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Update with empty First and Last Name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Muru01\",\r\n  \"lastName\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateFirstAndLastName",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateFirstAndLastName"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Update special characters First and Last Name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Muru01\",\r\n  \"lastName\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateFirstAndLastName",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateFirstAndLastName"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative -Update only First Name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Muru01\",\r\n  \"lastName\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateFirstAndLastName",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateFirstAndLastName"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative-Update only Last Name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Muru01\",\r\n  \"lastName\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/updateFirstAndLastName",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"updateFirstAndLastName"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Notification API execute",
+			"item": [
+				{
+					"name": "Get New Notification Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while retrieving notification count.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Successfully Get New Notification Count\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.noOfNotification).to.exist;\r",
+									"            pm.expect(response.noOfMessages).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Get Notification Count because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/notification/notification/getNewNotificationCount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"notification",
+								"notification",
+								"getNewNotificationCount"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Get total Notification Count",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/notification/notification/getNewNotificationCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"notification",
+										"notification",
+										"getNewNotificationCount"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Notification Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Successfully Get Notifications\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.userNotifications).to.be.an('array');\r",
+									"            pm.expect(response.totalCount).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Get Notifications because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60190/notification/notification/getNotification?numberOfNotifications=4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"notification",
+								"notification",
+								"getNotification"
+							],
+							"query": [
+								{
+									"key": "numberOfNotifications",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Notification Number",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60190/notification/notification/getNotification?numberOfNotifications=4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"notification",
+										"notification",
+										"getNotification"
+									],
+									"query": [
+										{
+											"key": "numberOfNotifications",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Load More Notification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Successfully Load More Notifications\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.userNotifications).to.be.an('array');\r",
+									"            pm.expect(response.totalCount).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Load More Notifications because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/notification/notification/getNotification/?loadMore=9&offSet=9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"notification",
+								"notification",
+								"getNotification",
+								""
+							],
+							"query": [
+								{
+									"key": "loadMore",
+									"value": "9"
+								},
+								{
+									"key": "offSet",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive -Load More Notification",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/notification/notification/getNotification/?loadMore=9&offSet=9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"notification",
+										"notification",
+										"getNotification",
+										""
+									],
+									"query": [
+										{
+											"key": "loadMore",
+											"value": "9"
+										},
+										{
+											"key": "offSet",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Read All Notifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response when given notification number.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Successfully Read All Notifications\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Read All Notifications because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/notification/notification/readAllNotifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"notification",
+								"notification",
+								"readAllNotifications"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive - Read All Notifications",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/notification/notification/readAllNotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"notification",
+										"notification",
+										"readAllNotifications"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Read Marked Notifications",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/notification/notification/readMarkedNotifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"notification",
+								"notification",
+								"readMarkedNotifications"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive- Read Marked Notifications",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/notification/notification/readMarkedNotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"notification",
+										"notification",
+										"readMarkedNotifications"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Marked Notifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response while deleting marked notifications.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Successfully Remove Marked Notifications\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"        });\r",
+									"    } else {\r",
+									"        pm.test(\"Unable to Remove Marked Notifications\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.exist;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Remove Marked Notification because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/notification/notification/removeMarkedNotifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"notification",
+								"notification",
+								"removeMarkedNotifications"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive - Delete Marked Notifications",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/notification/notification/removeMarkedNotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"notification",
+										"notification",
+										"removeMarkedNotifications"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Chat API execute",
+			"item": [
+				{
+					"name": "Get Chatroom",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Assertion - Check status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Assertion-Validate the response when given notification number.\r",
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Successfully Get First Chatroom\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response).to.have.keys('success', 'chatroom', 'myCurrentUser');\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Get First Chatroom because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getFirstChatroom",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getFirstChatroom"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive- Get First Chatroom",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/getFirstChatroom",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"getFirstChatroom"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Chatroom Detail List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var statusCode = pm.response.code;\r",
+									"\r",
+									"if (statusCode == 200) {\r",
+									"    var response = pm.response.json();\r",
+									"    if (response.success == true) {\r",
+									"        pm.test(\"Successfully Get Chat Room Details\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.true;\r",
+									"            pm.expect(response.result).to.be.an('array');\r",
+									"        });\r",
+									"    } else {\r",
+									"        pm.test(\"Get Chat Room details Unsuccessfull\", function () {\r",
+									"            var response = pm.response.json();\r",
+									"            pm.response.to.have.status(200);\r",
+									"            pm.expect(response.success).to.be.false;\r",
+									"            pm.expect(response.message).to.be.equal(\"Error while retrieving chatroom details\");\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"if (statusCode == 401) {\r",
+									"     pm.test(\"Unable to Get Chat Room Details because user is not Authenticated\", function () {\r",
+									"        var response = pm.response.body;\r",
+									"        pm.expect(response).to.be.undefined\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60190/profile/profile/getChatRoomDetailsList/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60190",
+							"path": [
+								"profile",
+								"profile",
+								"getChatRoomDetailsList",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Positive-Get Chatroom Detail List",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/getChatRoomDetailsList/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"getChatRoomDetailsList",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Negative -Get Chatroom Detail List",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:60190/profile/profile/getChatRoomDetailsList/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60190",
+									"path": [
+										"profile",
+										"profile",
+										"getChatRoomDetailsList",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		}
+	]
+}
